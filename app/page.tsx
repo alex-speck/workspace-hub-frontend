@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LandingPage() {
   const year = new Date().getFullYear();
@@ -50,7 +51,9 @@ export default function LandingPage() {
         
         {/* Camada da Imagem */}
         <div className="absolute inset-0 z-0">
-          <img 
+          <Image 
+            width={1920}
+            height={1080}
             src={bgImage} 
             alt="Escritório moderno" 
             className="w-full h-full object-cover opacity-40 brightness-[0.6]"
@@ -94,7 +97,7 @@ export default function LandingPage() {
       {/* CARDS DE REGRA DE NEGÓCIO */}
       <section className="py-24 px-6 relative z-10 -mt-10">
         <div className="mx-auto max-w-7xl grid md:grid-cols-3 gap-8">
-          <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
+          <div className="bg-white p-8 rounded-4xl border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
             <h3 className="text-xl font-extrabold mb-4 flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-emerald-500"></span>
               Isolamento de Dados
@@ -103,7 +106,7 @@ export default function LandingPage() {
               Gestores visualizam exclusivamente seus espaços, clientes e faturamento. Privacidade total entre unidades da rede.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
+          <div className="bg-white p-8 rounded-4xl border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
             <h3 className="text-xl font-extrabold mb-4 flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-emerald-500"></span>
               Gestão de Inventário
@@ -112,7 +115,7 @@ export default function LandingPage() {
               Controle mesas fixas, salas de reunião e posições de hot-desk. Atualização de status em tempo real.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
+          <div className="bg-white p-8 rounded-4xl border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
             <h3 className="text-xl font-extrabold mb-4 flex items-center gap-2">
               <span className="h-3 w-3 rounded-full bg-emerald-500"></span>
               Dashboard de Unidade
