@@ -1,21 +1,35 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Sidebar from "../components/Sidebar";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SistemaLayout({children}: {children:React.ReactNode}) {
     // O estado agora vive no Layout para controlar os dois lados
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const { usuario } = useAuth();
+    const router = useRouter();
+
+    useEffect(()=>{
+      debugger;
+      if(usuario == null){
+        router.push("/login")
+      }
+    })
+
+    if(usuario == null) return null;
 
     return (
     <div className="flex min-h-screen flex-col bg-slate-50">
-      <Header />
+      <Header onMenuClick={() => setIsMobileOpen(!isMobileOpen)} />
 
       <div className="flex flex-1">
-        {/* Passamos o estado e a função para a Sidebar */}
-        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      
+        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} />
 
         {/* A mágica acontece aqui: 
             O padding-left muda de acordo com o estado da Sidebar.

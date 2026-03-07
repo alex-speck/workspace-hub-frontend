@@ -19,7 +19,7 @@ export default function Footer() {
           {/* Links de Navegação */}
           <nav className="flex items-center gap-6">
             <a 
-              href="/suporte" 
+              href="https://forms.gle/7P5R1f8kAvAcQbvT8" 
               className="group flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600"
             >
               {/* SVG de Suporte - W3C Style */}
@@ -39,7 +39,7 @@ export default function Footer() {
             </a>
 
             <a 
-              href="/termos" 
+              href="/termos" //TODO: Adicionar rota no backend que baixa arquivo placeholder de termos de uso
               className="group flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600"
             >
               {/* SVG de Documento - W3C Style */}

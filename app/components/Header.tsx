@@ -1,12 +1,29 @@
 'use client'
 
 import React from 'react'
+import { useAuth } from '../context/AuthContext';
 
-export default function Header() {
+interface HeaderProps {
+  onMenuClick:()=>void
+}
+
+export default function Header({onMenuClick}: HeaderProps) {
+
+  const { usuario, logout } = useAuth();
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-emerald-100 bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-10 w-full border-b border-emerald-100 bg-white/95 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
+
+          <button 
+          onClick={onMenuClick}
+          className="p-2 rounded-lg hover:bg-slate-100 md:hidden text-slate-600"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
           
           {/* Lado Esquerdo: Logo ou Nome do Sistema */}
           <div className="flex items-center gap-2">
@@ -19,11 +36,10 @@ export default function Header() {
           {/* Lado Direito: Perfil + Botão Sair Agrupados */}
           <div className="flex items-center gap-4 sm:gap-6">
             
-            {/* Perfil do Usuário */}
             <div className="flex items-center gap-3">
               <div className="flex flex-col text-right hidden sm:flex">
                 <span className="text-sm font-semibold text-slate-700 leading-none">
-                  Alex Speck
+                  {usuario?.name || 'Usuario indefinido'}
                 </span>
                 <span className="text-[10px] font-medium text-emerald-600 uppercase mt-1">
                   Administrador
@@ -55,6 +71,7 @@ export default function Header() {
             <button 
               className="group flex items-center gap-2 rounded-md p-2 text-sm font-medium text-slate-500 transition-all hover:cursor-pointer hover:bg-red-50 hover:text-red-600"
               title="Sair do sistema"
+              onClick={logout}
             >
               <span className="hidden md:inline font-semibold">Sair</span>
               <svg 
