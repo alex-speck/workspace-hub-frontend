@@ -3,13 +3,13 @@ import Image from "next/image";
 
 export default function LandingPage() {
   const year = new Date().getFullYear();
-  // URL de uma sala de reunião moderna (você pode substituir por uma local ou outra do Unsplash)
+  
   const bgImage = "https://statics.forbesargentina.com/2023/04/6446cc8bd9410.jpg";
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
       
-      {/* NAVBAR: Ajustada para ser visível sobre o fundo da imagem */}
+      
       <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-slate-950/20 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 h-20">
           <div className="flex items-center gap-2">
@@ -46,10 +46,10 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* HERO: Com Imagem de Fundo e Overlay */}
+      
       <section className="relative pt-48 pb-32 px-6 min-h-[90vh] flex items-center bg-slate-900">
         
-        {/* Camada da Imagem */}
+        
         <div className="absolute inset-0 z-0">
           <Image 
             width={1920}
@@ -58,7 +58,7 @@ export default function LandingPage() {
             alt="Escritório moderno" 
             className="w-full h-full object-cover opacity-40 brightness-[0.6]"
           />
-          {/* Gradiente para suavizar a transição com a próxima seção */}
+          
           <div className="absolute inset-0 bg-linear-to-b from-slate-950/60 via-slate-950/40 to-slate-50" />
         </div>
 
@@ -94,7 +94,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CARDS DE REGRA DE NEGÓCIO */}
+      
       <section className="py-24 px-6 relative z-10 -mt-10">
         <div className="mx-auto max-w-7xl grid md:grid-cols-3 gap-8">
           <div className="bg-white p-8 rounded-4xl border border-slate-200 shadow-xl shadow-slate-200/50 transition-transform hover:-translate-y-1">
@@ -127,7 +127,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* SOBRE O CRIADOR */}
+      
       <section className="py-24 bg-emerald-950 text-white px-6">
         <div className="mx-auto max-w-7xl flex flex-col lg:flex-row items-center gap-16">
           <div className="w-48 h-48 bg-emerald-800 rounded-full flex items-center justify-center text-4xl font-black border-4 border-emerald-500/30 shadow-2xl">
@@ -143,7 +143,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      
       <footer className="py-12 border-t border-slate-200 text-center bg-white">
         <p className="text-slate-400 text-xs font-bold tracking-[0.2em] uppercase">
           © {year} WorkSpace Hub — Enterprise Edition

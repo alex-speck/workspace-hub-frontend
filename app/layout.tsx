@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Projeto Fullstack",
-  description: "Placeholder para o projeto da disciplina de fullstack",
+  title: "WorkSpace Hub - Gerenciamento de Espaços de Trabalho",
+  description: "WorkSpace Hub é a solução definitiva para gerenciar e reservar espaços de trabalho compartilhados. Simplifique a organização do seu ambiente de trabalho com nossa plataforma intuitiva e eficiente.",
 };
 
 export default function RootLayout({

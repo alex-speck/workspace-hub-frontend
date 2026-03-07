@@ -56,6 +56,7 @@ export default function Login() {
                                 type="email"
                                 placeholder='ex: gestao@unidade.com'
                                 name='email'
+                                required
                                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-400 text-slate-700"
                             />
                         </div>
@@ -71,6 +72,7 @@ export default function Login() {
                         <input
                             type="password"
                             name='senha'
+                            required
                             className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all text-slate-700"
                         />
                     </div>
