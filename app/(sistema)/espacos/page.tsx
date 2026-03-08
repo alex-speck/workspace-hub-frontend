@@ -1,20 +1,11 @@
 "use client";
 
 import EspacoModal from '@/app/components/EspacoModal';
-import React, { useState } from 'react'; 
+import Espaco from '@/app/model/Espaco';
+import { useState } from 'react'; 
 
 
-export class Espaco {
-  constructor(
-    public name: string,
-    public type: 'Mesa Fixa' | 'Mesa Rotativa' | 'Sala Privativa' | 'Sala de Reunião',
-    public hourlyRate: number,
-    public id?: number,
-    public status: 'Disponível' | 'Ocupado' | 'Manutenção' = 'Disponível',
-    public description?: string,
-    public imgSource?: string
-  ) {}
-}
+
 
 const initialEspacos: Espaco[] = [
   new Espaco("Mesa 01", "Mesa Rotativa", 15.0, 1, "Disponível"),
@@ -78,7 +69,7 @@ export default function Espacos() {
                   <div className="flex flex-col">
                     <span className="font-bold text-slate-900">{espaco.name}</span>
                     {espaco.description && (
-                      <span className="text-xs text-slate-400 truncate max-w-[200px]">{espaco.description}</span>
+                      <span className="text-xs text-slate-400 truncate max-w-50">{espaco.description}</span>
                     )}
                   </div>
                 </td>

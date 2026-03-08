@@ -1,5 +1,6 @@
 'use client'
-import { useAuth, Usuario } from '@/app/context/AuthContext';
+import { useAuth } from '@/app/context/AuthContext';
+import Usuario from '@/app/model/Usuario';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 

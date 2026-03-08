@@ -8,7 +8,6 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           
-          {/* Copyright Section */}
           <div className="flex items-center gap-2">
             <span className="text-sm text-slate-500">
               © {currentYear} <span className="font-semibold text-emerald-600 tracking-tight">WorkSpace Hub</span>.
@@ -16,13 +15,12 @@ export default function Footer() {
             <span className="hidden text-sm text-slate-400 md:inline">Todos os direitos reservados.</span>
           </div>
 
-          {/* Links de Navegação */}
           <nav className="flex items-center gap-6">
             <a 
               href="https://forms.gle/7P5R1f8kAvAcQbvT8" 
+              target="_blank" rel="noopener noreferrer"
               className="group flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600"
             >
-              {/* SVG de Suporte - W3C Style */}
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24" 
@@ -39,10 +37,11 @@ export default function Footer() {
             </a>
 
             <a 
-              href="/termos" //TODO: Adicionar rota no backend que baixa arquivo placeholder de termos de uso
+              href="https://www.youtube.com/watch?v=Aq5WXmQQooo" 
+              target="_blank" rel="noopener noreferrer"
+              //TODO: Adicionar rota no backend que baixa arquivo placeholder de termos de uso
               className="group flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-emerald-600"
             >
-              {/* SVG de Documento - W3C Style */}
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24" 

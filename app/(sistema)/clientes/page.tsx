@@ -1,5 +1,6 @@
 'use client'
 import ClienteModal from '@/app/components/ClienteModal'
+import Cliente from '@/app/model/Cliente'
 import { useState } from 'react'
 
 /**
@@ -21,17 +22,6 @@ import { useState } from 'react'
  * 
  */
 
-export class Cliente {
-  constructor(
-    public name: string,
-    public email: string,
-    public phone: string,
-    public documento: string,
-    public status: string = "Ativo",
-    public psa: string = "",
-    public id?: number
-  ){}
-}
 
 const ClientesMock = [
   {
@@ -315,7 +305,7 @@ export default function Clientes() {
                              </svg>
                              Motivo Blacklist
                            </div>
-                           <p className="font-medium leading-relaxed text-slate-300 italic">"{cliente.psa}"</p>
+                           <p className="font-medium leading-relaxed text-slate-300 italic">&quot;{cliente.psa}&quot;</p>
                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-slate-900" />
                         </div>
                       )}

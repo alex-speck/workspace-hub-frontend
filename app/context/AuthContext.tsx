@@ -2,14 +2,10 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import Usuario from "../model/Usuario";
 
 
-export class Usuario {
-    constructor(
-        public codigo: number,
-        public name: string
-    ) { }
-}
+
 
 interface AuthContextType {
     usuario: Usuario | null,
