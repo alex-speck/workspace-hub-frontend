@@ -1,6 +1,5 @@
 "use client";
 
-import EspacoModal from '@/app/components/EspacoModal';
 import Espaco from '@/app/model/Espaco';
 import { useState } from 'react'; 
 
