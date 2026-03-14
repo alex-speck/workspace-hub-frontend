@@ -19,6 +19,10 @@ export default function Clientes() {
     }
   }
 
+  const handleAlterarStatus = async (cliente: Cliente) => {
+
+  }
+
   useEffect(()=>{
     buscarDados();
   },[])
