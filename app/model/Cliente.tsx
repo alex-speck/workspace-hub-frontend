@@ -5,6 +5,6 @@ export default class Cliente {
     public email: string,
     public phone: string,
     public documento: string,
-    public status: boolean
+    public ativo: boolean
   ){}
 }

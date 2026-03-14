@@ -11,4 +11,27 @@ export class ClientesMock {
     static async listarTodos(): Promise<Cliente[]>{
         return [...this.clienteDB]
     }
+
+    static async salvar(cliente: Cliente): Promise<void>{
+        const indexExistente = this.clienteDB.findIndex(c => c.id === cliente.id)
+
+        if(indexExistente === -1) {
+            const novoId = Math.max(...this.clienteDB.map(c => c.id)) + 1
+            cliente.id = novoId
+            this.clienteDB.push(cliente)
+            alert("Cliente criado com sucesso!")
+        } else {
+            this.clienteDB[indexExistente].name = cliente.name;
+            this.clienteDB[indexExistente].email = cliente.email;
+            this.clienteDB[indexExistente].phone = cliente.phone;
+            this.clienteDB[indexExistente].documento = cliente.documento;
+        }
+    }
+
+    static async buscarPorId(id: number): Promise<Cliente|undefined>{
+        return this.clienteDB.find(c => c.id === id)
+    }
+
+    static async alterarStatus(cliente: Cliente): Promise<void>{
+    }
 }

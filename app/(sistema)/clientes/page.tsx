@@ -10,6 +10,19 @@ export default function Clientes() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
 
 
+  const buscarDados = async () => {
+    try {
+      const data = await ClientesMock.listarTodos();
+      setClientes(data);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(()=>{
+    buscarDados();
+  },[])
+
 
   return (
     <div className="space-y-6">
@@ -51,6 +64,15 @@ export default function Clientes() {
 
       <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
+          {!clientes ? (<div>Nenhum cliente encontrado <Link 
+          href={"/clientes/novo"}
+          className="flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl font-bold shadow-lg transition-all active:scale-95 text-sm hover:cursor-pointer"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          <span>Novo Cliente</span>
+        </Link></div>) : (
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-slate-50">
@@ -62,9 +84,21 @@ export default function Clientes() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              
+              {clientes.map((cliente) => (
+                <tr key={cliente.id}>
+                  <td>{cliente.name}</td>
+                  <td>{cliente.email} {cliente.phone}</td>
+                  <td>{cliente.documento}</td>
+                  <td>{cliente.ativo ? "Ativo" : "Inativo"}</td>
+                  <td>
+                    <Link href={`/clientes/${cliente.id}/editar`}>Editar</Link>
+                    <button onClick={handleAlterarStatus}>{cliente.ativo ? "Desativar" : "Ativar"}</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+        )}
         </div>
       </div>
     </div>
