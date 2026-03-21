@@ -1,6 +1,7 @@
 'use client'
 import { UsuarioMock } from '@/app/mock/usuario';
 import Usuario from '@/app/model/Usuario'
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -12,24 +13,25 @@ interface UsuarioFormProps {
 export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
 
     const router = useRouter()
-    const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario(0, '', '', true));
+    const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario( null , '', '', "ATIVO"));
 
 
 
-    const handleChange = (campo: 'nome' | 'cpf', valor: string) => {
+    const handleChange = (campo: 'nome' | 'email', valor: string) => {
         setUsuario(prev =>
             new Usuario(
-                prev.codigo,
-                campo === 'nome' ? valor : prev.name,
-                campo === 'cpf' ? valor : prev.cpf,
-                prev.ativo
+                prev.id,
+                campo === 'nome' ? valor : prev.nome,
+                campo === 'email' ? valor : prev.email,
+                prev.status
             )
         )
     }
 
     const handleSalvar = async (formData: FormData) => {
-        await UsuarioMock.salvar(usuario);
-        alert("Usuario salvo com sucesso!");
+        const dados = await axios.post<number>('http://localhost:8080/usuarios', usuario)
+
+        alert("Usuario salvo com sucesso! Codigo: #" + dados.data);
 
         router.push("/usuarios");
     }
@@ -44,7 +46,7 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
                     <div className="relative group">
                         <input
                             type="text"
-                            value={usuario.name}
+                            value={usuario.nome}
                             required
                             onChange={(e) => handleChange('nome', e.target.value)}
                             placeholder="João da Silva"
@@ -54,16 +56,15 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
                 </div>
                 <div className="space-y-2">
                     <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-slate-400 ml-1">
-                        CPF
+                        Email
                     </label>
                     <div className="relative group">
                         <input
-                            type="text"
-                            value={usuario.cpf}
-                            maxLength={14}
+                            type="email"
+                            value={usuario.email}
                             required
-                            onChange={(e) => handleChange('cpf', e.target.value)}
-                            placeholder="000.000.000-00"
+                            onChange={(e) => handleChange('email', e.target.value)}
+                            placeholder="usuario@email.com"
                             className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-medium outline-none text-slate-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-300 placeholder:font-normal"
                         />
                     </div>

@@ -1,6 +1,7 @@
 'use client'
 import { UsuarioMock } from '@/app/mock/usuario';
 import Usuario from '@/app/model/Usuario'
+import axios from 'axios';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -10,22 +11,25 @@ function Usuarios() {
 
   const carregarDados = async () => {
     try {
-      const dados = await UsuarioMock.listarTodos()
-      setUsuarios(dados);
+      const dados = await axios.get<Usuario[]>("http://localhost:8080/usuarios")
+      if(dados.status !== 200){
+        alert("Erro ao carregar os dados!")
+      }
+      setUsuarios(dados.data);
     } catch (err) {
       console.error(err)
     }
   }
 
-  const handlerAlterarStatus = async (usuario: Usuario) => {
-    try {
-      setUsuarios(prev => prev.map(u =>
-        u.codigo === usuario.codigo ? new Usuario(u.codigo, u.name, u.cpf, !u.ativo) : u
-      ))
-    } catch (err) {
-      alert("Erro ao alterar status do usuario!")
-    }
-  }
+  // const handlerAlterarStatus = async (usuario: Usuario) => {
+  //   try {
+  //     setUsuarios(prev => prev.map(u =>
+  //       u.id === usuario.id ? new Usuario(u.id, u.nome, u.cpf, !u.status) : u
+  //     ))
+  //   } catch (err) {
+  //     alert("Erro ao alterar status do usuario!")
+  //   }
+  // }
 
   useEffect(() => {
     carregarDados();
@@ -59,41 +63,41 @@ function Usuarios() {
               <tr className="border-b border-slate-50">
                 <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Código</th>
                 <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Nome</th>
-                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">CPF</th>
+                <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Email</th>
                 <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
                 <th className="px-8 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Ações</th>
               </tr>
             </thead>
 
             <tbody className="divide-y divide-slate-50">
-              {usuarios.map((usuario) => (
-                <tr key={usuario.codigo} className="group hover:bg-slate-50/50 transition-colors">
+              {usuarios.map((usuario) => usuario.status !== 'DELETADO' && (
+                <tr key={usuario.id} className="group hover:bg-slate-50/50 transition-colors">
                   <td className="px-8 py-5">
                     <span className="font-mono text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
-                      #{usuario.codigo}
+                      #{usuario.id}
                     </span>
                   </td>
                   <td className="px-8 py-5">
-                    <span className="font-bold text-slate-900">{usuario.name}</span>
+                    <span className="font-bold text-slate-900">{usuario.nome}</span>
                   </td>
                   <td className="px-8 py-5 text-sm text-slate-600">
-                    {usuario.cpf}
+                    {usuario.email}
                   </td>
                   <td className="px-8 py-5">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${usuario.ativo
+                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${usuario.status === 'ATIVO'
                         ? 'bg-emerald-50 text-emerald-600'
                         : 'bg-red-50 text-red-600'
                       }`}>
-                      <div className={`w-1.5 h-1.5 rounded-full ${usuario.ativo ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                      <div className={`w-1.5 h-1.5 rounded-full ${usuario.status === 'ATIVO' ? 'bg-emerald-500' : 'bg-red-500'}`} />
                       <span className="text-[11px] font-black uppercase tracking-wider">
-                        {usuario.ativo ? "Ativo" : "Inativo"}
+                        {usuario.status}
                       </span>
                     </div>
                   </td>
                   <td className="px-8 py-5 text-right">
                     <div className="flex justify-end gap-2">
                       <Link
-                        href={`/usuarios/${usuario.codigo}/editar`}
+                        href={`/usuarios/${usuario.id}/editar`}
                         className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
                         title="Editar Usuário"
                       >
@@ -103,14 +107,14 @@ function Usuarios() {
                       </Link>
 
                       <button
-                        onClick={() => handlerAlterarStatus(usuario)}
-                        className={`p-2 rounded-xl transition-all hover:cursor-pointer ${usuario.ativo
+                        //onClick={/() => handlerAlterarStatus(usuario)}
+                        className={`p-2 rounded-xl transition-all hover:cursor-pointer ${usuario.status === 'ATIVO'
                             ? 'text-slate-400 hover:text-red-600 hover:bg-red-50'
                             : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'
                           }`}
-                        title={usuario.ativo ? "Desativar" : "Ativar"}
+                        title={usuario.status === 'ATIVO' ? "Desativar" : "Ativar"}
                       >
-                        {usuario.ativo ? (
+                        {usuario.status === 'ATIVO' ? (
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                           </svg>

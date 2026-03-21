@@ -1,8 +1,13 @@
 'use client'
 import { useAuth } from '@/app/context/AuthContext';
 import Usuario from '@/app/model/Usuario';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react'
+
+interface LoginResponse{
+    token: string
+}
 
 export default function Login() {
 
@@ -16,19 +21,25 @@ export default function Login() {
         
         try {
             // Validar na API
+            debugger;
+            const loginResponse = await axios.post<LoginResponse>('http://localhost:8080/auth/login', {email: email, senha: senha});
+
+            if(loginResponse.status !== 200) {
+                alert("Usuario ou senha invalido!")
+                return
+            }
 
             const usuarioMock = new Usuario(1, "Usuario Teste");
-            const tokenMock = "jwt-token"
 
-            login(usuarioMock, tokenMock);
+            login(usuarioMock, loginResponse.data.token);
+            router.push("/dashboard")
+            console.log(`Autenticado com email: ${email}`)
 
         } catch{
             alert("Erro ao entrar no sistema!")
         }
 
-        console.log(`Autenticado com email: ${email}`)
 
-        router.push("/dashboard")
     }
 
     return (

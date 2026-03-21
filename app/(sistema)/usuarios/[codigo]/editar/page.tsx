@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import UsuarioForm from '../../components/UsuarioForm'
+import axios from 'axios'
 
 export default function EditarUsuario() {
 
@@ -21,9 +22,9 @@ export default function EditarUsuario() {
 
   const buscarDados = async () => {
     try {
-      const user = await UsuarioMock.buscarPorId(codigo)
+      const user = await axios.get<Usuario>(`http://localhost:8080/usuarios/${codigo}`)
 
-      if (user) setUsuario(user)
+      if (user.status === 200) setUsuario(user.data)
       else router.push("/usuarios")
     } catch (error) {
       console.error(error)
@@ -56,8 +57,8 @@ export default function EditarUsuario() {
           </div>
 
           <div className="hidden sm:block">
-            <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-tighter ${usuario?.ativo ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}`}>
-              {usuario?.ativo ? 'Conta Ativa' : 'Conta Inativa'}
+            <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-tighter ${usuario?.status === 'ATIVO' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'}`}>
+              {usuario?.status === 'ATIVO' ? 'Conta Ativa' : 'Conta Inativa'}
             </span>
           </div>
         </div>
