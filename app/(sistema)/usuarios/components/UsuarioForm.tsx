@@ -13,7 +13,7 @@ interface UsuarioFormProps {
 export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
 
     const router = useRouter()
-    const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario( null , '', '', "ATIVO"));
+    const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario(null, '', '', "ATIVO"));
 
 
 
@@ -29,9 +29,27 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
     }
 
     const handleSalvar = async (formData: FormData) => {
-        const dados = await axios.post<number>('http://localhost:8080/usuarios', usuario)
 
-        alert("Usuario salvo com sucesso! Codigo: #" + dados.data);
+        if (usuarioExistente) {
+            const dados = await axios.put<number>('http://localhost:8080/usuarios/' + usuarioExistente.id , usuario)
+
+            if(dados.status !== 200) {
+                return
+            }
+                
+            alert(dados.data);
+        } else {
+            const dados = await axios.post<number>('http://localhost:8080/usuarios', usuario)
+
+            if(dados.status !== 200) {
+                return
+            }
+                
+            alert("Usuario salvo com sucesso! Codigo: #" + dados.data);
+        
+        }
+
+
 
         router.push("/usuarios");
     }

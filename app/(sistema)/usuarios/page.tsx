@@ -21,15 +21,20 @@ function Usuarios() {
     }
   }
 
-  // const handlerAlterarStatus = async (usuario: Usuario) => {
-  //   try {
-  //     setUsuarios(prev => prev.map(u =>
-  //       u.id === usuario.id ? new Usuario(u.id, u.nome, u.cpf, !u.status) : u
-  //     ))
-  //   } catch (err) {
-  //     alert("Erro ao alterar status do usuario!")
-  //   }
-  // }
+  const handlerAlterarStatus = async (usuario: Usuario) => {
+     try {
+        const status = usuario.status === 'ATIVO' ? 'INATIVO' : 'ATIVO';
+        const response = await axios.put(`http://localhost:8080/usuarios/${usuario.id}/status`, { status })
+
+        if(response.status !== 200) {
+          throw new Error("Falha ao alterar status")
+        }
+        setUsuarios([]);
+        carregarDados();
+     } catch (error) {
+        alert("Erro ao atualizar o status")
+     }
+  }
 
   useEffect(() => {
     carregarDados();
@@ -70,7 +75,7 @@ function Usuarios() {
             </thead>
 
             <tbody className="divide-y divide-slate-50">
-              {usuarios.map((usuario) => usuario.status !== 'DELETADO' && (
+              {usuarios.sort((a, b) => a.id - b.id).map((usuario) => usuario.status !== 'DELETADO' && (
                 <tr key={usuario.id} className="group hover:bg-slate-50/50 transition-colors">
                   <td className="px-8 py-5">
                     <span className="font-mono text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
@@ -107,7 +112,7 @@ function Usuarios() {
                       </Link>
 
                       <button
-                        //onClick={/() => handlerAlterarStatus(usuario)}
+                        onClick={() => handlerAlterarStatus(usuario)}
                         className={`p-2 rounded-xl transition-all hover:cursor-pointer ${usuario.status === 'ATIVO'
                             ? 'text-slate-400 hover:text-red-600 hover:bg-red-50'
                             : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'
