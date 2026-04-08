@@ -2,6 +2,7 @@
 import { useClientes } from '@/app/context/ClientesContext'
 import { ClientesMock } from '@/app/mock/cliente'
 import Cliente from '@/app/model/Cliente'
+import { formatarCpfCnpj } from '@/app/utils/utils'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -31,7 +32,20 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
         )
     }
 
+    const handleCpfChange = (documento: string) => {
+        if (!cliente) return;
+
+        const formatado = formatarCpfCnpj(documento);
+
+        setCliente({...cliente, documento: formatado});
+    }
+
     const handleSalvar = async (formData: FormData) => {
+        if (cliente.documento.length < 14) {
+            alert("CPF/CNPJ inválido. Certifique-se de preencher corretamente.");
+            return;
+        }
+
         try {
             if (clienteExistente) {
                 const response = await axios.put(`http://localhost:8080/clientes/${clienteExistente.id}`, {
@@ -39,7 +53,7 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
                     telefone: cliente.telefone,
                     documento: cliente.documento
                 })
-                if (response.status === 200){
+                if (response.status === 200) {
                     context.guardarCliente(response.data)
                 }
                 router.push("/clientes")
@@ -61,7 +75,6 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
         <form action={handleSalvar} className="space-y-8">
             <div className="space-y-6">
 
-                {/* Campo: Nome Completo */}
                 <div className="space-y-2">
                     <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-slate-400 ml-1">
                         Nome Completo
@@ -76,7 +89,6 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
                     />
                 </div>
 
-                {/* Grid: Telefone e Documento */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                         <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-slate-400 ml-1">
@@ -100,7 +112,7 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
                             type="text"
                             value={cliente.documento}
                             required
-                            onChange={(e) => handleChange("documento", e.target.value)}
+                            onChange={(e) => { handleChange("documento", e.target.value); handleCpfChange(e.target.value) }}
                             placeholder="000.000.000-00"
                             className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-medium outline-none text-slate-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-300 placeholder:font-normal"
                         />
