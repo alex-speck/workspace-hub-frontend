@@ -1,5 +1,4 @@
 'use client'
-import { UsuarioMock } from '@/app/mock/usuario';
 import Usuario from '@/app/model/Usuario'
 import axios from 'axios';
 import Link from 'next/link'

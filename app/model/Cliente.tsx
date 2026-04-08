@@ -1,10 +1,9 @@
 export default class Cliente {
   constructor(
     public id: number,
-    public name: string,
-    public email: string,
-    public phone: string,
+    public nome: string,
+    public telefone: string,
     public documento: string,
-    public ativo: boolean
+    public status: string
   ){}
 }

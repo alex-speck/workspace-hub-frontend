@@ -1,9 +1,11 @@
+'use client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import ClientesForm from '../../components/ClientesForm'
 import { useParams, useRouter } from 'next/navigation'
 import Cliente from '@/app/model/Cliente'
 import { ClientesMock } from '@/app/mock/cliente'
+import axios from 'axios'
 
 export default function EditarCliente() {
     const params = useParams()
@@ -19,9 +21,9 @@ export default function EditarCliente() {
 
     const buscarDados = async () =>{
         try {
-            const data = await ClientesMock.buscarPorId(id)
+            const response = await axios.get("http://localhost:8080/clientes/" + id);
 
-            if(data) setCliente(data)
+            if(response.status === 200) setCliente(response.data)
                 else router.push("/clientes")
         } catch (error) {
             console.error(error)
