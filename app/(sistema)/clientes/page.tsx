@@ -61,21 +61,6 @@ export default function Clientes() {
         </Link>
       </div>
 
-      <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-        <div className="relative">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <input
-            type="text"
-            placeholder="Buscar por nome, documento..."
-            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm outline-none focus:border-emerald-500 transition-all text-slate-900"
-          />
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 gap-4 md:hidden">
         {clientes.map((cliente) => (
           <div key={cliente.id} className="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">

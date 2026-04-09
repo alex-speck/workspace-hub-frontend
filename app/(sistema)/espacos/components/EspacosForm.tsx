@@ -1,4 +1,5 @@
 'use client'
+import { useConfirm } from '@/app/context/ConfirmContext'
 import Espaco from '@/app/model/Espaco'
 import axios from 'axios'
 import Link from 'next/link'
@@ -11,6 +12,7 @@ interface EspacosFormProps {
 
 export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
     const router = useRouter();
+    const { alert } = useConfirm();
 
     const [espaco, setEspaco] = useState<Espaco>(espacoExistente || new Espaco(0, '', 'MESA_FIXA', 0.00, 'DISPONIVEL'))
 
@@ -35,7 +37,7 @@ export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
                     valorHora: espaco.valorHora
                 })
                 if (response.status === 200) {
-                    alert("Espaço atualizado com sucesso!")
+                    await alert("Espaço atualizado com sucesso!", true, "Atualizado!")
                     router.push("/espacos")
                 }
             } catch (error) {
@@ -50,7 +52,7 @@ export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
                 })
 
                 if (response.status === 201) {
-                    alert("Espaço criado com sucesso!")
+                    await alert("Espaço criado com sucesso!", true, "Sucesso!")
                     router.push("/espacos")
                 }
             } catch (error) {

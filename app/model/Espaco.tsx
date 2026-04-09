@@ -4,6 +4,6 @@ export default class Espaco {
     public nomeNumero: string,
     public tipo: 'MESA_FIXA' | 'MESA_ROTATIVA' | 'SALA_PRIVATIVA',
     public valorHora: number,
-    public status: 'DISPONIVEL' | 'OCUPADO' | 'EM_MANUTENCAO'
+    public status: 'DISPONIVEL' | 'OCUPADO' | 'EM_MANUTENCAO' | 'DELETADO'
   ) {}
 }

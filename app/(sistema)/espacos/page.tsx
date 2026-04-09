@@ -1,4 +1,5 @@
 "use client";
+import { useConfirm } from '@/app/context/ConfirmContext';
 import Espaco from '@/app/model/Espaco';
 import { formatarEnum, formatarValor } from '@/app/utils/utils';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 export default function Espacos() {
   const [espacos, setEspacos] = useState<Espaco[]>([]);
+  const { confirm, alert } = useConfirm();
 
   const buscarDados = async () => {
     try {
@@ -15,6 +17,26 @@ export default function Espacos() {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  const handleDeletarEspaco = async (id: number) => {
+    const confirma = await confirm("Deseja deletar o espaço #" + id, "Deletar")
+
+    if(confirma) {
+      try {
+        const response = await axios.delete(`http://localhost:8080/espacos/${id}`)
+
+        if(response.status === 200){
+          await alert("Espaço deletado com sucesso!", true, "Sucesso!")
+          buscarDados()
+        }
+      } catch (error) {
+        await alert("Erro ao deletar espaço", false, "Erro!")
+      }
+    } else {
+      return
+    }
+
   }
 
   useEffect(() => {
@@ -47,14 +69,13 @@ export default function Espacos() {
             <span className="text-slate-400 font-medium italic">Nenhum espaço cadastrado.</span>
           </div>
         ) : (
-          espacos.map((espaco) => (
+          espacos.map((espaco) => espaco.status !== "DELETADO" && (
             <div key={espaco.id} className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
               <div className="flex justify-between items-start">
                 <div>
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">#{espaco.id}</span>
                   <h3 className="font-black text-slate-900 text-lg leading-tight">{espaco.nomeNumero}</h3>
                 </div>
-                {/* Status no Topo do Card */}
                 <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${espaco.status === "DISPONIVEL" ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
                   }`}>
                   {formatarEnum(espaco.status)}
@@ -96,7 +117,7 @@ export default function Espacos() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {espacos.map((espaco) => (
+              {espacos.map((espaco) => espaco.status !== 'DELETADO' && (
                 <tr key={espaco.id} className="group hover:bg-slate-50/50 transition-colors text-slate-900">
                   <td className="px-8 py-5 font-mono text-xs font-bold text-slate-400">{espaco.id}</td>
                   <td className="px-8 py-5 font-bold">{espaco.nomeNumero}</td>
@@ -118,13 +139,33 @@ export default function Espacos() {
                       <span className="text-[10px] font-black uppercase tracking-wider">{formatarEnum(espaco.status)}</span>
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-right">
+                  <td className="px-8 py-5 text-right flex">
                     <Link href={`/espacos/${espaco.id}/editar`} className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all">
                       <span>Editar</span>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                       </svg>
                     </Link>
+                      <button
+                        onClick={() => handleDeletarEspaco(espaco.id)}
+                        className="group flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all duration-300 cursor-pointer active:scale-95"
+                      >
+                        <svg
+                          className="w-4 h-4 overflow-visible"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2.5"
+                        >
+                          <g className="transition-transform duration-300 ease-in-out group-hover:-translate-y-1.5 group-hover:rotate-12 origin-center">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 7h14m-9 0V5a2 2 0 012-2h2a2 2 0 012 2v2" />
+                          </g>
+
+                          <g>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6" />
+                          </g>
+                        </svg>
+                      </button>
                   </td>
                 </tr>
               ))}
