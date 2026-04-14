@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WorkSpace Hub - Frontend
 
-## Getting Started
+Frontend do sistema WorkSpace Hub para gestão e reserva de espaços de coworking.
 
-First, run the development server:
+## 🚀 Visão geral
+
+O WorkSpace Hub é uma aplicação Next.js que oferece:
+
+- Painel administrativo para gerenciamento de unidades, clientes, espaços e reservas.
+- Login autenticado com persistência de token.
+- Dashboard com navegação lateral e experiência responsiva.
+- Formulários de criação/edição com validação e confirmação de ações.
+- Integração com backend REST em `http://localhost:8080`.
+
+## 🧭 Estrutura do projeto
+
+Páginas principais:
+
+- `/` - Landing page institucional.
+- `/login` - Tela de autenticação.
+- `/dashboard` - Visão geral do sistema após login.
+- `/clientes` - Lista de clientes.
+- `/clientes/novo` - Criação de cliente.
+- `/clientes/[id]/editar` - Edição de cliente.
+- `/espacos` - Lista de espaços.
+- `/espacos/novo` - Criação de espaço.
+- `/espacos/[id]/editar` - Edição de espaço.
+- `/reservas` - Gestão de reservas.
+- `/usuarios` - Lista de usuários.
+- `/usuarios/novo` - Criação de usuário.
+- `/usuarios/[codigo]/editar` - Edição de usuário.
+
+Contextos globais:
+
+- `app/context/AuthContext.tsx` - autenticação e token.
+- `app/context/ClientesContext.tsx` - estado compartilhado de clientes.
+- `app/context/ConfirmContext.tsx` - modais de confirmação e alertas.
+
+Componentes chave:
+
+- `app/components/Sidebar.tsx`
+- `app/components/Header.tsx`
+- `app/components/ConfirmModal.tsx`
+- `app/components/MessageModal.tsx`
+- `app/(sistema)/clientes/components/ClientesForm.tsx`
+- `app/(sistema)/espacos/components/EspacosForm.tsx`
+- `app/(sistema)/usuarios/components/UsuarioForm.tsx`
+
+## 🛠️ Tecnologias
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Axios
+- js-cookie
+- ESLint
+
+## 🚧 Requisitos
+
+- Node.js 20+
+- Backend REST disponível em `http://localhost:8080`
+- Porta padrão do frontend: `3000`
+
+## 🔧 Instalação e execução
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse `http://localhost:3000` no navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📡 Configuração de backend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A aplicação faz chamadas diretas para o backend em `http://localhost:8080`.
 
-## Learn More
+Endpoints usados no frontend incluem (mas não se limitam a):
 
-To learn more about Next.js, take a look at the following resources:
+- `POST /auth/login`
+- `GET /usuarios`
+- `GET /espacos`
+- `DELETE /espacos/:id`
+- `GET /clientes`
+- `POST /clientes`
+- `PUT /clientes/:id`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> Se necessário, ajuste as URLs de API diretamente nos componentes até substituir por uma camada de configuração de ambiente.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Observações do projeto
 
-## Deploy on Vercel
+- Os providers de contexto são carregados em `app/layout.tsx`.
+- A landing page (`app/page.tsx`) usa imagem externa e fonte Geist otimizada.
+- A navegação interna do painel acontece em `app/(sistema)/layout.tsx`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✅ Scripts úteis
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` - inicia o servidor de desenvolvimento.
+- `npm run build` - gera o build de produção.
+- `npm run start` - inicia o build em modo de produção.
+- `npm run lint` - executa o ESLint.
