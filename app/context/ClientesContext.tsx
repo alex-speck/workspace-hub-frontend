@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import Cliente from "../model/Cliente";
+import Cliente from "../types/cliente/cliente";
 import Cookies from "js-cookie";
 
 

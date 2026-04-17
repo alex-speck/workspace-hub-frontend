@@ -1,5 +1,5 @@
 'use client'
-import Espaco from '@/app/model/Espaco'
+import Espaco from '@/app/types/espacos/espaco'
 import axios from 'axios'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'

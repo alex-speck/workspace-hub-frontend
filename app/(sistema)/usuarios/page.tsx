@@ -1,8 +1,8 @@
 'use client'
-import Usuario from '@/app/model/Usuario'
-import axios from 'axios';
+import { alterarStatusUsuario, buscarListaUsuarios } from '@/app/services/usuarioService';
+import Usuario from '@/app/types/usuarios/usuario'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function Usuarios() {
 
@@ -10,29 +10,17 @@ function Usuarios() {
 
   const carregarDados = async () => {
     try {
-      const dados = await axios.get<Usuario[]>("http://localhost:8080/usuarios")
-      if(dados.status !== 200){
-        alert("Erro ao carregar os dados!")
-      }
-      setUsuarios(dados.data);
+      setUsuarios(await buscarListaUsuarios());
     } catch (err) {
+      alert(err)
       console.error(err)
     }
   }
 
   const handlerAlterarStatus = async (usuario: Usuario) => {
-     try {
-        const status = usuario.status === 'ATIVO' ? 'INATIVO' : 'ATIVO';
-        const response = await axios.put(`http://localhost:8080/usuarios/${usuario.id}/status`, { status })
-
-        if(response.status !== 200) {
-          throw new Error("Falha ao alterar status")
-        }
+        await alterarStatusUsuario(usuario)
         setUsuarios([]);
         carregarDados();
-     } catch (error) {
-        alert("Erro ao atualizar o status")
-     }
   }
 
   useEffect(() => {

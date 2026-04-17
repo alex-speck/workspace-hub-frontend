@@ -1,4 +1,4 @@
-import Cliente from "../model/Cliente";
+import Cliente from "../types/cliente/cliente";
 
 export class ClientesMock {
 

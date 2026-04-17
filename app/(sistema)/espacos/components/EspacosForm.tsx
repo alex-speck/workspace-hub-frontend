@@ -1,14 +1,13 @@
 'use client'
 import { useConfirm } from '@/app/context/ConfirmContext'
-import Espaco from '@/app/model/Espaco'
+import Espaco from '@/app/types/espacos/espaco'
+import { EspacosFormProps } from '@/app/types/espacos/espacoForm'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-interface EspacosFormProps {
-    espacoExistente?: Espaco
-}
+
 
 export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
     const router = useRouter();

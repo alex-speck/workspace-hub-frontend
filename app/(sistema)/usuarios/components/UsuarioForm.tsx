@@ -1,14 +1,12 @@
 'use client'
-import { UsuarioMock } from '@/app/mock/usuario';
-import Usuario from '@/app/model/Usuario'
+import Usuario from '@/app/types/usuarios/usuario'
+import { UsuarioFormProps } from '@/app/types/usuarios/usuarioForm';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-interface UsuarioFormProps {
-    usuarioExistente?: Usuario
-}
+
 
 export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
 

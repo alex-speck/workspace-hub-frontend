@@ -1,6 +1,6 @@
 'use client'
 import { useClientes } from '@/app/context/ClientesContext';
-import Cliente from '@/app/model/Cliente';
+import Cliente from '@/app/types/cliente/cliente';
 import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react'
 

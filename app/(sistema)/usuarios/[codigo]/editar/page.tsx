@@ -1,6 +1,6 @@
 'use client'
 import { UsuarioMock } from '@/app/mock/usuario'
-import Usuario from '@/app/model/Usuario'
+import Usuario from '@/app/types/usuarios/usuario'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'

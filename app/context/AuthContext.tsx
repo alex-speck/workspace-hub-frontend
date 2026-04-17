@@ -2,17 +2,12 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import Usuario from "../model/Usuario";
+import Usuario from "../types/usuarios/usuario";
+import { AuthContextType } from "../types/authentication/authentication";
 
 
 
 
-interface AuthContextType {
-    usuario: Usuario | null,
-    token: string | null
-    login: (usuario: Usuario, token: string) => void,
-    logout: () => void
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

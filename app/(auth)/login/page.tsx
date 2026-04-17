@@ -1,13 +1,11 @@
 'use client'
 import { useAuth } from '@/app/context/AuthContext';
-import Usuario from '@/app/model/Usuario';
+import { LoginResponse } from '@/app/types/authentication/loginResponse';
+import Usuario from '@/app/types/usuarios/usuario';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React from 'react'
 
-interface LoginResponse{
-    token: string
-}
+
 
 export default function Login() {
 

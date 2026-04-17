@@ -1,7 +1,7 @@
 'use client'
 import { useClientes } from '@/app/context/ClientesContext'
 import { ClientesMock } from '@/app/mock/cliente'
-import Cliente from '@/app/model/Cliente'
+import Cliente from '@/app/types/cliente/cliente'
 import { formatarCpfCnpj } from '@/app/utils/utils'
 import axios from 'axios'
 import Link from 'next/link'

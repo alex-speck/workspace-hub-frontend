@@ -7,10 +7,8 @@ import ClientesForm from '../components/ClientesForm'
 export default function NovoCliente() {
   return (
     <div className="min-h-screen bg-slate-50 p-8 flex flex-col items-center">
-      {/* Container de largura controlada para manter o foco */}
       <div className="w-full max-w-2xl">
 
-        {/* Cabeçalho com Navegação */}
         <div className="flex items-center gap-6 mb-10">
           <Link
             href="/clientes"
@@ -30,23 +28,17 @@ export default function NovoCliente() {
           </div>
         </div>
 
-        {/* Card Principal do Formulário */}
         <div className="bg-white rounded-[3rem] shadow-xl shadow-slate-900/5 border border-slate-100 p-10 relative overflow-hidden animate-in fade-in zoom-in-95 duration-500">
-          {/* Detalhe estético no topo (Barra Esmeralda) */}
+  
           <div className="absolute top-0 left-0 w-full h-2 bg-emerald-500/10" />
 
           <div className="mb-8">
             <h2 className="text-lg font-bold text-slate-800">Dados Cadastrais</h2>
-            <p className="text-sm text-slate-500 font-medium leading-relaxed">
-              Certifique-se de que o documento (CPF/CNPJ) esteja correto para a emissão de contratos.
-            </p>
           </div>
 
-          {/* Renderização do Form Estilizado */}
           <ClientesForm />
         </div>
 
-        {/* Footer de Suporte */}
         <div className="mt-8 px-6 py-4 bg-emerald-50/50 rounded-2xl border border-emerald-100/50 flex items-start gap-4">
           <div className="p-2 bg-white rounded-xl shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-emerald-600">

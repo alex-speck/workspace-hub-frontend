@@ -1,4 +1,4 @@
-import Usuario from "../model/Usuario";
+import Usuario from "../types/usuarios/usuario";
 
 export class UsuarioMock{
 

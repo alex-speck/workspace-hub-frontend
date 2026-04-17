@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import ClientesForm from '../../components/ClientesForm'
 import { useParams, useRouter } from 'next/navigation'
-import Cliente from '@/app/model/Cliente'
+import Cliente from '@/app/types/cliente/cliente'
 import { ClientesMock } from '@/app/mock/cliente'
 import axios from 'axios'
 
