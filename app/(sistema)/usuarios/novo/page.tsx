@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
 import UsuarioForm from '../components/UsuarioForm'
 
 export default function CadastrarUsuario() {

@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Cliente from '@/app/types/cliente/cliente'
 import { ClientesMock } from '@/app/mock/cliente'
 import axios from 'axios'
+import { buscarClientePorId } from '@/app/services/clienteService'
 
 export default function EditarCliente() {
     const params = useParams()
@@ -21,18 +22,17 @@ export default function EditarCliente() {
 
     const buscarDados = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/clientes/" + id);
-
-            if (response.status === 200) setCliente(response.data)
-            else router.push("/clientes")
+            setCliente(await buscarClientePorId(id))
         } catch (error) {
-            console.error(error)
+            router.push("/clientes")
         }
     }
 
-    
+
 
     if (!cliente) return (<div className="p-8">Carregando...</div>)
+
+
 
     return (
         <div className="min-h-screen bg-slate-50 p-8 flex flex-col items-center">

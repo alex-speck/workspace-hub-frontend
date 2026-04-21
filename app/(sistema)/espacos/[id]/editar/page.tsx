@@ -1,11 +1,11 @@
 'use client'
 import Espaco from '@/app/types/espacos/espaco'
-import axios from 'axios'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import EspacosForm from '../../components/EspacosForm'
 import { formatarEnum } from '@/app/utils/utils'
+import { buscarEspacoPorId } from '@/app/services/espacoService'
 
 export default function EditarEspaco() {
     const params = useParams()
@@ -21,12 +21,9 @@ export default function EditarEspaco() {
 
     const buscarDados = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/espacos/" + id);
-
-            if (response.status === 200) setEspaco(response.data)
-            else router.push("/espacos")
+            setEspaco(await buscarEspacoPorId(id))
         } catch (error) {
-            console.error(error)
+            router.push("/espacos")
         }
     }
 
@@ -58,7 +55,7 @@ export default function EditarEspaco() {
                 </div>
 
                 <div className="bg-white rounded-[3rem] shadow-xl shadow-slate-900/5 border border-slate-100 p-10 relative overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-700">
-                    
+
                     <div className="absolute top-0 left-0 w-full h-2 bg-slate-100" />
 
                     <div className="mb-10 flex items-start justify-between">

@@ -1,5 +1,6 @@
 'use client'
 import { useConfirm } from '@/app/context/ConfirmContext'
+import { criarEspaco, editarEspaco } from '@/app/services/espacoService'
 import Espaco from '@/app/types/espacos/espaco'
 import { EspacosFormProps } from '@/app/types/espacos/espacoForm'
 import axios from 'axios'
@@ -30,30 +31,18 @@ export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
     const handleSalvar = async (formData: FormData) => {
         if (espacoExistente) {
             try {
-                const response = await axios.put(`http://localhost:8080/espacos/${espacoExistente.id}`, {
-                    nomeNumero: espaco.nomeNumero,
-                    tipo: espaco.tipo,
-                    valorHora: espaco.valorHora
-                })
-                if (response.status === 200) {
-                    await alert("Espaço atualizado com sucesso!", true, "Atualizado!")
-                    router.push("/espacos")
-                }
+                await editarEspaco(espaco);
+                await alert("Espaço atualizado com sucesso!", true, "Atualizado!")
+                router.push("/espacos")
+
             } catch (error) {
                 console.error(error);
             }
         } else {
             try {
-                const response = await axios.post(`http://localhost:8080/espacos`, {
-                    nomeNumero: espaco.nomeNumero,
-                    tipo: espaco.tipo,
-                    valorHora: espaco.valorHora
-                })
-
-                if (response.status === 201) {
-                    await alert("Espaço criado com sucesso!", true, "Sucesso!")
-                    router.push("/espacos")
-                }
+                await criarEspaco(espaco);
+                await alert("Espaço criado com sucesso!", true, "Sucesso!")
+                router.push("/espacos")
             } catch (error) {
                 console.error(error);
             }

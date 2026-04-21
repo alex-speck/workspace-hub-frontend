@@ -1,34 +1,27 @@
 'use client'
 import { useClientes } from '@/app/context/ClientesContext';
 import Cliente from '@/app/types/cliente/cliente'
-import api from '@/app/services/api';
-import axios from 'axios';
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { alterarStatusCliente, buscarListaClientes } from '@/app/services/clienteService';
 
 
 export default function Clientes() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const context = useClientes();
-
 
   const buscarDados = async () => {
     try {
-      const response = await api.get<Cliente[]>("/clientes");
-      setClientes(response.data);
+      setClientes(await buscarListaClientes());
     } catch (error) {
       console.error(error)
     }
   }
 
-  const handleAlterarStatus = async (id: number, status: string) => {
+  const handleAlterarStatus = async (cliente: Cliente) => {
     try {
-      const response = await axios.put<Cliente>(`http://localhost:8080/clientes/${id}/status`, { status });
-      if (response.status === 200) {
-        context.guardarCliente(response.data)
-      }
-      setClientes([])
-      buscarDados();
+      await alterarStatusCliente(cliente);
+      setClientes(prev => prev.map(c => c.id === cliente.id ? { ...c, status: c.status === 'ATIVO' ? 'INATIVO' : 'ATIVO' } : c))
+      
     } catch (error) {
       console.error(error)
     }
@@ -94,7 +87,7 @@ export default function Clientes() {
                 Editar
               </Link>
               <button
-                onClick={() => handleAlterarStatus(cliente.id, cliente.status === "ATIVO" ? "INATIVO" : "ATIVO")}
+                onClick={() => handleAlterarStatus(cliente)}
                 className={`flex-1 py-3 font-bold rounded-xl text-xs border transition-colors ${cliente.status === "ATIVO"
                   ? 'bg-red-50 text-red-600 border-red-100'
                   : 'bg-emerald-50 text-emerald-600 border-emerald-100'
@@ -165,7 +158,7 @@ export default function Clientes() {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                         </svg>
                       </Link>
-                      <button onClick={() => handleAlterarStatus(cliente.id, cliente.status === "ATIVO" ? "INATIVO" : "ATIVO")} className={`p-2 rounded-xl transition-all hover:cursor-pointer ${cliente.status === "ATIVO" ? 'text-slate-400 hover:text-red-600 hover:bg-red-50' : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'}`}>
+                      <button onClick={() => handleAlterarStatus(cliente)} className={`p-2 rounded-xl transition-all hover:cursor-pointer ${cliente.status === "ATIVO" ? 'text-slate-400 hover:text-red-600 hover:bg-red-50' : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'}`}>
                         {cliente.status === "ATIVO" ? (
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />

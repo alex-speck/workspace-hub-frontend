@@ -19,8 +19,7 @@ function Usuarios() {
 
   const handlerAlterarStatus = async (usuario: Usuario) => {
         await alterarStatusUsuario(usuario)
-        setUsuarios([]);
-        carregarDados();
+        setUsuarios(prev => prev.map(u => u.id === usuario.id ? { ...u, status: u.status === 'ATIVO' ? 'INATIVO' : 'ATIVO' } : u));
   }
 
   useEffect(() => {

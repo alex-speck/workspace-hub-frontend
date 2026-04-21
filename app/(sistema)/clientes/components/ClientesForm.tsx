@@ -1,23 +1,21 @@
 'use client'
-import { useClientes } from '@/app/context/ClientesContext'
-import { ClientesMock } from '@/app/mock/cliente'
+import { useConfirm } from '@/app/context/ConfirmContext'
+import { criarCliente, editarCliente } from '@/app/services/clienteService'
 import Cliente from '@/app/types/cliente/cliente'
+import { ClientesFormProps } from '@/app/types/cliente/clienteForm'
 import { formatarCpfCnpj } from '@/app/utils/utils'
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 
 
-interface ClientesFormProps {
-    clienteExistente?: Cliente
-}
+
 
 
 export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
     const router = useRouter()
-    const context = useClientes();
+    const { alert } = useConfirm();
     const [cliente, setCliente] = useState<Cliente>(clienteExistente || new Cliente(0, '', '', '', ''))
 
     const handleChange = (campo: 'name' | 'email' | 'phone' | 'documento', valor: string) => {
@@ -42,27 +40,16 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
 
     const handleSalvar = async (formData: FormData) => {
         if (cliente.documento.length < 14) {
-            alert("CPF/CNPJ inválido. Certifique-se de preencher corretamente.");
+            await alert("Certifique-se de preencher corretamente.", false, "CPF/CNPJ inválido.");
             return;
         }
 
         try {
             if (clienteExistente) {
-                const response = await axios.put(`http://localhost:8080/clientes/${clienteExistente.id}`, {
-                    nome: cliente.nome,
-                    telefone: cliente.telefone,
-                    documento: cliente.documento
-                })
-                if (response.status === 200) {
-                    context.guardarCliente(response.data)
-                }
+                await editarCliente(cliente);
                 router.push("/clientes")
             } else {
-                await axios.post('http://localhost:8080/clientes', {
-                    nome: cliente.nome,
-                    telefone: cliente.telefone,
-                    documento: cliente.documento
-                })
+                await criarCliente(cliente);
                 router.push("/clientes")
             }
         } catch (error) {

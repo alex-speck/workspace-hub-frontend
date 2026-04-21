@@ -1,5 +1,6 @@
 "use client";
 import { useConfirm } from '@/app/context/ConfirmContext';
+import { buscarListaEspacos, deletarEspaco } from '@/app/services/espacoService';
 import Espaco from '@/app/types/espacos/espaco';
 import { formatarEnum, formatarValor } from '@/app/utils/utils';
 import axios from 'axios';
@@ -12,8 +13,8 @@ export default function Espacos() {
 
   const buscarDados = async () => {
     try {
-      const response = await axios.get<Espaco[]>("http://localhost:8080/espacos");
-      setEspacos(response.data);
+      setEspacos(await buscarListaEspacos());
+      console.log(espacos)
     } catch (error) {
       console.error(error);
     }
@@ -22,19 +23,14 @@ export default function Espacos() {
   const handleDeletarEspaco = async (id: number) => {
     const confirma = await confirm("Deseja deletar o espaço #" + id, "Deletar")
 
-    if(confirma) {
+    if (confirma) {
       try {
-        const response = await axios.delete(`http://localhost:8080/espacos/${id}`)
-
-        if(response.status === 200){
-          await alert("Espaço deletado com sucesso!", true, "Sucesso!")
-          buscarDados()
-        }
+        await deletarEspaco(id);
+        await alert("Espaço deletado com sucesso!", true, "Sucesso!")
+        setEspacos(prev => prev.filter(espaco => espaco.id !== id))
       } catch (error) {
         await alert("Erro ao deletar espaço", false, "Erro!")
       }
-    } else {
-      return
     }
 
   }
@@ -64,9 +60,9 @@ export default function Espacos() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:hidden">
-        {espacos.length === 0 ? (
+        {espacos.every((espaco) => espaco.status === "DELETADO") || espacos.length === 0 ? (
           <div className="bg-white p-10 rounded-[2rem] text-center border border-slate-100">
-            <span className="text-slate-400 font-medium italic">Nenhum espaço cadastrado.</span>
+            <span className="text-slate-400 font-medium italic">Está vazio aqui.</span>
           </div>
         ) : (
           espacos.map((espaco) => espaco.status !== "DELETADO" && (
@@ -117,7 +113,31 @@ export default function Espacos() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {espacos.map((espaco) => espaco.status !== 'DELETADO' && (
+              {espacos.length === 0 || espacos.every((espaco) => espaco.status === "DELETADO") ? (
+                <tr className="bg-transparent">
+                  <td colSpan={6} className="px-8 py-24 text-center">
+                    <div className="flex flex-col items-center justify-center gap-5 animate-in fade-in zoom-in-95 duration-500">
+
+                      <div className="w-24 h-24 bg-slate-100 rounded-[2.5rem] flex items-center justify-center text-slate-300 shadow-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="w-12 h-12">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6.75h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+                        </svg>
+                      </div>
+
+                      <div className="max-w-3xl text-center mx-auto">
+                        <h3 className="text-slate-900 font-black text-xl uppercase tracking-tighter">
+                          Nenhum espaço encontrado
+                        </h3>
+                        <p className="text-slate-400 text-sm font-medium leading-relaxed mt-1">
+                          Crie novos espaços utilizando o botão acima e eles aparecerão aqui para você gerenciar.
+                        </p>
+                      </div>
+
+
+                    </div>
+                  </td>
+                </tr>
+              ) : espacos.map((espaco) => espaco.status !== 'DELETADO' && (
                 <tr key={espaco.id} className="group hover:bg-slate-50/50 transition-colors text-slate-900">
                   <td className="px-8 py-5 font-mono text-xs font-bold text-slate-400">{espaco.id}</td>
                   <td className="px-8 py-5 font-bold">{espaco.nomeNumero}</td>
@@ -146,26 +166,26 @@ export default function Espacos() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                       </svg>
                     </Link>
-                      <button
-                        onClick={() => handleDeletarEspaco(espaco.id)}
-                        className="group flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all duration-300 cursor-pointer active:scale-95"
+                    <button
+                      onClick={() => handleDeletarEspaco(espaco.id)}
+                      className="group flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all duration-300 cursor-pointer active:scale-95"
+                    >
+                      <svg
+                        className="w-4 h-4 overflow-visible"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2.5"
                       >
-                        <svg
-                          className="w-4 h-4 overflow-visible"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          strokeWidth="2.5"
-                        >
-                          <g className="transition-transform duration-300 ease-in-out group-hover:-translate-y-1.5 group-hover:rotate-12 origin-center">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 7h14m-9 0V5a2 2 0 012-2h2a2 2 0 012 2v2" />
-                          </g>
+                        <g className="transition-transform duration-300 ease-in-out group-hover:-translate-y-1.5 group-hover:rotate-12 origin-center">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 7h14m-9 0V5a2 2 0 012-2h2a2 2 0 012 2v2" />
+                        </g>
 
-                          <g>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6" />
-                          </g>
-                        </svg>
-                      </button>
+                        <g>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6" />
+                        </g>
+                      </svg>
+                    </button>
                   </td>
                 </tr>
               ))}

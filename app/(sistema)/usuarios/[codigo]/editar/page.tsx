@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import UsuarioForm from '../../components/UsuarioForm'
-import axios from 'axios'
+import { buscarUsuarioPorId } from '@/app/services/usuarioService'
 
 export default function EditarUsuario() {
 
@@ -16,22 +16,28 @@ export default function EditarUsuario() {
 
   const codigo = Number(params.codigo)
 
-  useEffect(() => {
-    buscarDados()
-  }, [])
 
   const buscarDados = async () => {
+    debugger
     try {
-      const user = await axios.get<Usuario>(`http://localhost:8080/usuarios/${codigo}`)
+      setUsuario(await buscarUsuarioPorId(codigo))
 
-      if (user.status === 200) setUsuario(user.data)
-      else router.push("/usuarios")
     } catch (error) {
       console.error(error)
     }
   }
 
+  useEffect(() => {
+    buscarDados()
+  }, [])
+
+
   if (!usuario) return (<div className="p-8">Carregando dados...</div>)
+
+  if (usuario === null) {
+    router.push("/usuarios")
+  }
+
 
   return (
     <div className="min-h-screen bg-slate-50 p-8 flex flex-col items-center">

@@ -5,11 +5,13 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
+import { useConfirm } from '@/app/context/ConfirmContext';
+import { editarUsuario, criarUsuario } from '@/app/services/usuarioService';
 
 
 
 export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
-
+    const { alert } = useConfirm();
     const router = useRouter()
     const [usuario, setUsuario] = useState<Usuario>(usuarioExistente || new Usuario(null, '', '', "ATIVO"));
 
@@ -29,21 +31,13 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
     const handleSalvar = async (formData: FormData) => {
 
         if (usuarioExistente) {
-            const dados = await axios.put<number>('http://localhost:8080/usuarios/' + usuarioExistente.id , usuario)
-
-            if(dados.status !== 200) {
-                return
-            }
-                
-            alert(dados.data);
+            
+            await editarUsuario(usuario);
+            await alert("Usuario editado com sucesso!", true, `Usuario #${usuario.id} atualizado!`);
         } else {
-            const dados = await axios.post<number>('http://localhost:8080/usuarios', usuario)
-
-            if(dados.status !== 200) {
-                return
-            }
-                
-            alert("Usuario salvo com sucesso! Codigo: #" + dados.data);
+            
+            await criarUsuario(usuario);
+            await alert("Usuario salvo com sucesso!", true, `Criado!`);
         
         }
 
