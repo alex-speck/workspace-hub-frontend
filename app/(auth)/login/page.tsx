@@ -1,8 +1,6 @@
 'use client'
 import { useAuth } from '@/app/context/AuthContext';
-import { LoginResponse } from '@/app/types/authentication/loginResponse';
-import Usuario from '@/app/types/usuarios/usuario';
-import axios from 'axios';
+import { authenticar } from '@/app/services/authService';
 import { useRouter } from 'next/navigation';
 
 
@@ -12,24 +10,17 @@ export default function Login() {
     const router = useRouter();
     const { login } = useAuth();
 
-    const handleLogin = async (formData:FormData) => {
+    const handleLogin = async (formData: FormData) => {
         
         const email = formData.get("email");
         const senha = formData.get("senha");
         
         try {
-            // Validar na API
+            
             debugger;
-            const loginResponse = await axios.post<LoginResponse>('http://localhost:8080/auth/login', {email: email, senha: senha});
+            const data = await authenticar(email, senha)
 
-            if(loginResponse.status !== 200) {
-                alert("Usuario ou senha invalido!")
-                return
-            }
-
-            const usuarioMock = new Usuario(1, "Usuario Teste");
-
-            login(usuarioMock, loginResponse.data.token);
+            login(data?.usuario, data?.token);
             router.push("/dashboard")
             console.log(`Autenticado com email: ${email}`)
 

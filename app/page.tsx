@@ -71,7 +71,7 @@ export default function LandingPage() {
           </p>
           <div className="flex justify-center">
             <Link
-              href="/registrar"
+              href="/cadastro"
               className="group relative inline-flex items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-10 py-5 text-lg font-black text-white shadow-2xl shadow-emerald-500/20 transition-all hover:bg-emerald-500 hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>Começar Agora</span>

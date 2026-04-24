@@ -37,10 +37,10 @@ export default function Header({onMenuClick}: HeaderProps) {
             <div className="flex items-center gap-3">
               <div className="flex flex-col text-right hidden sm:flex">
                 <span className="text-sm font-semibold text-slate-700 leading-none">
-                  {usuario?.name || 'Usuario indefinido'}
+                  {usuario?.nome || 'Usuario indefinido'}
                 </span>
                 <span className="text-[10px] font-medium text-emerald-600 uppercase mt-1">
-                  Administrador
+                  {usuario?.role || 'Cargo indefinido'}
                 </span>
               </div>
               

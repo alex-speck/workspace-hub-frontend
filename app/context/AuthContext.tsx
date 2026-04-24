@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [usuario, setUsuario] = useState<Usuario | null>(null);
+    const [usuario, setUsuario] = useState<UsuarioLogado | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const router = useRouter();
 
@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     },[]);
 
-    const login = (usuario: Usuario, token: string) => {
+    const login = (usuario: UsuarioLogado, token: string) => {
         debugger;
         setUsuario(usuario);
         setToken(token);

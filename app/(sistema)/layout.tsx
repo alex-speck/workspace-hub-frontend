@@ -28,6 +28,8 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
   return (
     <ConfirmProvider>
       <ClientesProvider>
+
+        
         <div className="flex min-h-screen flex-col bg-slate-50">
           <Header onMenuClick={() => setIsMobileOpen(!isMobileOpen)} />
 
@@ -48,6 +50,8 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
             </div>
           </div>
         </div>
+
+
       </ClientesProvider >
     </ConfirmProvider>
   );
