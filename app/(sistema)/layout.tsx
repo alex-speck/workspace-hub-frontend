@@ -35,7 +35,7 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
 
           <div className="flex flex-1">
 
-            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} />
+            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} usuarioLogado={usuario} />
 
 
             <div className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${isCollapsed ? "md:pl-20" : "md:pl-64 lg:pl-72"

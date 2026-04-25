@@ -8,6 +8,10 @@ import api from "./api";
 export async function authenticar(email: string, senha: string): Promise<LoginResponse | null> {
     const loginResponse = await api.post<TokenResponse>('/auth/login', { email, senha });
 
+    if (loginResponse.status !== 200){
+        throw new Error("Email ou senha incorreto!")
+    }
+
     if (loginResponse.status === 200){
         const usuarioResponse = await api.get<UsuarioLogado>("/usuarios/logado", {
             headers: {
@@ -15,9 +19,10 @@ export async function authenticar(email: string, senha: string): Promise<LoginRe
             }
         });
 
-        if(usuarioResponse.status === 200){
-            return new LoginResponse(loginResponse.data.token, usuarioResponse.data)
+        if(usuarioResponse.status !== 200){
+            throw new Error("Usuario inativo ou deletado!")
         }
+        return new LoginResponse(loginResponse.data.token, usuarioResponse.data)
     }
 
     return null;

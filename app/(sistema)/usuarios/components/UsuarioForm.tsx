@@ -29,7 +29,6 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
     }
 
     const handleSalvar = async (formData: FormData) => {
-
         if (usuarioExistente) {
             
             await editarUsuario(usuario);

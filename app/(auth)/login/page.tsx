@@ -25,7 +25,7 @@ export default function Login() {
             console.log(`Autenticado com email: ${email}`)
 
         } catch{
-            alert("Erro ao entrar no sistema!")
+            alert("Credenciais incorretos ou acesso inativo/deletado")
         }
 
 

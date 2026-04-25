@@ -37,7 +37,7 @@ export async function alterarStatusUsuario(usuario: Usuario): Promise<void> {
 export async function criarUsuario(usuario: Usuario): Promise<void> {
     const response = await api.post("/usuarios", usuario)
 
-    if (response.status !== 200) {
+    if (response.status !== 201) {
         alert("Erro ao criar usuário!")
     }
 }

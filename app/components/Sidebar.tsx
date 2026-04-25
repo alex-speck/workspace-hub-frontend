@@ -7,8 +7,9 @@ import React from "react";
 interface SidebarProps {
   isCollapsed: boolean;
   setIsCollapsed: (value: boolean) => void;
-  isMobileOpen: boolean; // Nova prop para controlar o abrir/fechar no celular
+  isMobileOpen: boolean;
   setIsMobileOpen: (value: boolean) => void;
+  usuarioLogado: UsuarioLogado;
 }
 
 export default function Sidebar({
@@ -16,6 +17,7 @@ export default function Sidebar({
   setIsCollapsed,
   isMobileOpen,
   setIsMobileOpen,
+  usuarioLogado
 }: SidebarProps) {
   const pathname = usePathname();
 
@@ -141,8 +143,8 @@ export default function Sidebar({
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)} // Fecha ao clicar no mobile
                   className={`group flex items-center rounded-xl transition-all duration-200 ${isCollapsed && !isMobileOpen
-                      ? "md:justify-center px-0 py-3"
-                      : "px-4 py-3 gap-3"
+                    ? "md:justify-center px-0 py-3"
+                    : "px-4 py-3 gap-3"
                     } ${isActive
                       ? "bg-emerald-600 text-white shadow-lg shadow-emerald-100"
                       : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
@@ -175,7 +177,7 @@ export default function Sidebar({
             })}
           </nav>
 
-          <div className="mt-auto border-t border-slate-50 pt-4">
+          {usuarioLogado.role !== "RECEPCIONISTA" && (<div className="mt-auto border-t border-slate-50 pt-4">
             <Link
               href="/usuarios"
               className={`
@@ -199,7 +201,7 @@ export default function Sidebar({
                 </span>
               )}
             </Link>
-          </div>
+          </div>)}
         </div>
       </aside>
     </>
