@@ -14,9 +14,10 @@ export default function Reservas() {
   const buscarDados = async () => {
     try {
       setReservas(await buscarReservas())
+     
     } catch (error) {
       alert(error)
-    }
+    } 
   }
 
   useEffect(() => {
@@ -24,16 +25,17 @@ export default function Reservas() {
   }, [])
 
   const reservasHoje = reservas.filter(reserva => {
-    return new Date(reserva.dataHoraFim).toLocaleDateString("pt-BR")
+    return new Date(reserva.dataHoraFim).getDate() === new Date().getDate();
   });
 
   const reservasFuturas = reservas.filter(reserva => {
-    const dataReserva = new Date(reserva.dataHoraFim);
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
+    const dataReserva = new Date(reserva.dataHoraFim).getDate();
+    const hoje = new Date().getDate();
+    
     return dataReserva > hoje && !reservasHoje.includes(reserva);
   });
 
+  console.log(reservas, reservasHoje, reservasFuturas)
 
   return (
 
@@ -57,7 +59,6 @@ export default function Reservas() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-        {/* COLUNA: HOJE */}
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <span className="relative flex h-3 w-3">
@@ -93,7 +94,6 @@ export default function Reservas() {
           </div>
         </div>
 
-        {/* COLUNA: PRÓXIMOS DIAS */}
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-3 h-3 rounded-full bg-slate-300"></div>
@@ -108,6 +108,7 @@ export default function Reservas() {
                   <h3 className="font-bold text-slate-800">{r.cliente.nome}</h3>
                   <div className="flex gap-3 mt-1">
                     <span className="text-[10px] font-bold text-slate-500 bg-slate-200/50 px-2 py-0.5 rounded-md">Total: {formatarValor(r.valorTotal)}</span>
+                    <span className="text-[10px] font-bold text-slate-500 bg-slate-200/50 px-2 py-0.5 rounded-md">Data: {new Date(r.dataHoraFim).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">

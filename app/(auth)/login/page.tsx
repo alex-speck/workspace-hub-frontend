@@ -20,7 +20,7 @@ export default function Login() {
             debugger;
             const data = await authenticar(email, senha)
 
-            login(data?.usuario, data?.token);
+            login(data?.usuario as UsuarioLogado, data?.token as string);
             router.push("/dashboard")
             console.log(`Autenticado com email: ${email}`)
 
