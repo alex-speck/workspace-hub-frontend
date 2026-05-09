@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from 'react'
-import { CadastroEmpresa } from '../types/empresa/cadastroEmpresa'
+import { CadastroEmpresa } from '../types/empresa/cadastro.empresa'
 import { formatarCnpj, formatarCpfCnpj, formatarTelefone } from '../utils/utils'
-import { cadastrarEmpresaUsuario } from '../services/authService'
+import { cadastrarEmpresaUsuario } from '../services/auth.service'
 import { useRouter } from 'next/navigation'
 import { useConfirm } from '../context/ConfirmContext'
 

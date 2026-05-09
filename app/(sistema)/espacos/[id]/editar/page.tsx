@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import EspacosForm from '../../components/EspacosForm'
 import { formatarEnum } from '@/app/utils/utils'
-import { buscarEspacoPorId } from '@/app/services/espacoService'
+import { buscarEspacoPorId } from '@/app/services/espaco.service'
 
 export default function EditarEspaco() {
     const params = useParams()

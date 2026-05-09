@@ -1,5 +1,5 @@
 import Reserva from "../types/reserva/reserva";
-import ReservaRequest from "../types/reserva/reservaRequest";
+import ReservaRequest from "../types/reserva/reserva.request";
 import api from "./api";
 
 export async function buscarReservas(): Promise<Reserva[]> {

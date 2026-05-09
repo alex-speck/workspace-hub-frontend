@@ -1,8 +1,8 @@
-import Usuario from "../usuarios/usuario"
 
-export interface AuthContextType {
+import { UsuarioLogado } from "../usuarios/usuario.logado"
+
+
+export interface AuthState {
     usuario: UsuarioLogado | null,
-    token: string | null
-    login: (usuario: UsuarioLogado, token: string) => void,
-    logout: () => void
+    token: string
 }

@@ -1,4 +1,4 @@
-import { TokenResponse } from "./tokenResponse";
+import { UsuarioLogado } from "../usuarios/usuario.logado";
 
 export class LoginResponse {
     constructor(

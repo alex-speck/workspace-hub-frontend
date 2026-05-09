@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ConfirmProvider } from "./context/ConfirmContext";
+import StoreProvider from "./redux/StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,11 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ConfirmProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
-        </ConfirmProvider>
+        <StoreProvider>
+          <ConfirmProvider>
+              {children}
+          </ConfirmProvider>
+        </StoreProvider>
 
       </body>
     </html>

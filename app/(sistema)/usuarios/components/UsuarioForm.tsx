@@ -1,12 +1,12 @@
 'use client'
 import Usuario from '@/app/types/usuarios/usuario'
-import { UsuarioFormProps } from '@/app/types/usuarios/usuarioForm';
+import { UsuarioFormProps } from '@/app/types/usuarios/usuario.form';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import { useConfirm } from '@/app/context/ConfirmContext';
-import { editarUsuario, criarUsuario } from '@/app/services/usuarioService';
+import { editarUsuario, criarUsuario } from '@/app/services/usuario.service';
 
 
 

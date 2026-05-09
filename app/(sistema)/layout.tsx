@@ -4,17 +4,18 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Sidebar from "../components/Sidebar";
-import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { ClientesProvider } from "../context/ClientesContext";
 import { ConfirmProvider } from "../context/ConfirmContext";
+import { store } from "../redux/store";
 
 export default function SistemaLayout({ children }: { children: React.ReactNode }) {
   // O estado agora vive no Layout para controlar os dois lados
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { usuario } = useAuth();
   const router = useRouter();
+
+  const usuario = store.getState().auth.usuario;
 
   useEffect(() => {
     debugger;

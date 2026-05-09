@@ -1,5 +1,5 @@
 'use client'
-import { buscarReservas } from '@/app/services/reservaService'
+import { buscarReservas } from '@/app/services/reserva.service'
 import Reserva from '@/app/types/reserva/reserva'
 import { formatarValor } from '@/app/utils/utils'
 import Link from 'next/link'

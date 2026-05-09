@@ -1,11 +1,11 @@
 'use client'
 import { GenericCombobox } from '@/app/components/GenericCombobox';
-import { buscarListaClientes } from '@/app/services/clienteService';
-import { buscarListaEspacos } from '@/app/services/espacoService';
-import { criarReserva } from '@/app/services/reservaService';
+import { buscarListaClientes } from '@/app/services/cliente.service';
+import { buscarListaEspacos } from '@/app/services/espaco.service';
+import { criarReserva } from '@/app/services/reserva.service';
 import Cliente from '@/app/types/cliente/cliente'
 import Espaco from '@/app/types/espacos/espaco';
-import ReservaRequest from '@/app/types/reserva/reservaRequest';
+import ReservaRequest from '@/app/types/reserva/reserva.request';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useMemo } from 'react'

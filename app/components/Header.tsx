@@ -1,7 +1,8 @@
 'use client'
-
-import React from 'react'
-import { useAuth } from '../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/slices/auth.slice';
+import { store } from '../redux/store';
+import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
   onMenuClick:()=>void
@@ -9,7 +10,9 @@ interface HeaderProps {
 
 export default function Header({onMenuClick}: HeaderProps) {
 
-  const { usuario, logout } = useAuth();
+  const dispatch = useDispatch();
+  const usuario = store.getState().auth.usuario;
+  const router = useRouter();
 
   return (
     <header className="sticky top-0 z-10 w-full border-b border-emerald-100 bg-white/95 backdrop-blur-sm">
@@ -66,7 +69,10 @@ export default function Header({onMenuClick}: HeaderProps) {
             <button 
               className="group flex items-center gap-2 rounded-md p-2 text-sm font-medium text-slate-500 transition-all hover:cursor-pointer hover:bg-red-50 hover:text-red-600"
               title="Sair do sistema"
-              onClick={logout}
+              onClick={() => {
+                dispatch(logout())
+                router.push("/login")
+              }}
             >
               <span className="hidden md:inline font-semibold">Sair</span>
               <svg 

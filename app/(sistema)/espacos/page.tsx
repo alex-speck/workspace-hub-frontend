@@ -1,6 +1,6 @@
 "use client";
 import { useConfirm } from '@/app/context/ConfirmContext';
-import { buscarListaEspacos, deletarEspaco } from '@/app/services/espacoService';
+import { buscarListaEspacos, deletarEspaco } from '@/app/services/espaco.service';
 import Espaco from '@/app/types/espacos/espaco';
 import { formatarEnum, formatarValor } from '@/app/utils/utils';
 import axios from 'axios';

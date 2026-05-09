@@ -1,7 +1,8 @@
 
-import { LoginResponse } from "../types/authentication/loginResponse";
-import { TokenResponse } from "../types/authentication/tokenResponse";
-import { CadastroEmpresa } from "../types/empresa/cadastroEmpresa";
+import { LoginResponse } from "../types/authentication/login.response";
+import { TokenResponse } from "../types/authentication/token.response";
+import { CadastroEmpresa } from "../types/empresa/cadastro.empresa";
+import { UsuarioLogado } from "../types/usuarios/usuario.logado";
 import api from "./api";
 
 

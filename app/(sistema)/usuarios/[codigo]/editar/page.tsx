@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import UsuarioForm from '../../components/UsuarioForm'
-import { buscarUsuarioPorId } from '@/app/services/usuarioService'
+import { buscarUsuarioPorId } from '@/app/services/usuario.service'
 
 export default function EditarUsuario() {
 

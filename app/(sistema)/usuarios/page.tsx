@@ -1,5 +1,5 @@
 'use client'
-import { alterarStatusUsuario, buscarListaUsuarios } from '@/app/services/usuarioService';
+import { alterarStatusUsuario, buscarListaUsuarios } from '@/app/services/usuario.service';
 import Usuario from '@/app/types/usuarios/usuario'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'

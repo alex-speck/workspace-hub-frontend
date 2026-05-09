@@ -132,7 +132,7 @@ export function GenericCombobox<T>({
                     {filteredItems.length === 0 ? (
                         <li className="px-5 py-8 text-slate-400 text-center text-xs font-bold uppercase tracking-widest">
                             Nenhum resultado para <br />
-                            <span className="text-slate-900">"{query}"</span>
+                            <span className="text-slate-900">&quot{query}&quot</span>
                         </li>
                     ) : (
                         <div className="px-2">

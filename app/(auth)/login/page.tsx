@@ -1,14 +1,15 @@
 'use client'
-import { useAuth } from '@/app/context/AuthContext';
-import { authenticar } from '@/app/services/authService';
+import { login } from '@/app/redux/slices/auth.slice';
+import { authenticar } from '@/app/services/auth.service';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 
 
 
 export default function Login() {
 
     const router = useRouter();
-    const { login } = useAuth();
+    const dispatch = useDispatch();
 
     const handleLogin = async (formData: FormData) => {
         
@@ -20,7 +21,9 @@ export default function Login() {
             debugger;
             const data = await authenticar(email, senha)
 
-            login(data?.usuario as UsuarioLogado, data?.token as string);
+            dispatch(login({ usuario: data?.usuario, token: data?.token}))
+
+            
             router.push("/dashboard")
             console.log(`Autenticado com email: ${email}`)
 

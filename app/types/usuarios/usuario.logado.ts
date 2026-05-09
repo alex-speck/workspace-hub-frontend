@@ -1,4 +1,4 @@
-interface UsuarioLogado {
+export interface UsuarioLogado {
     nome: string,
     email: string,
     role: string,
