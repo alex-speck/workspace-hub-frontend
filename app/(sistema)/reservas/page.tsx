@@ -1,5 +1,5 @@
 'use client'
-import { buscarReservas } from '@/app/services/reserva.service'
+import { buscarReservas, concluirReserva } from '@/app/services/reserva.service'
 import Reserva from '@/app/types/reserva/reserva'
 import { formatarValor } from '@/app/utils/utils'
 import Link from 'next/link'
@@ -14,10 +14,19 @@ export default function Reservas() {
   const buscarDados = async () => {
     try {
       setReservas(await buscarReservas())
-     
+
     } catch (error) {
       alert(error)
-    } 
+    }
+  }
+
+  const concluir = async (id: number) => {
+    try {
+      await concluirReserva(id);
+      setReservas(prev => prev.map(r => r.id === id ? { ...r, status: "CONCLUIDA" } : r))
+    } catch (error) {
+      alert(error)
+    }
   }
 
   useEffect(() => {
@@ -31,7 +40,7 @@ export default function Reservas() {
   const reservasFuturas = reservas.filter(reserva => {
     const dataReserva = new Date(reserva.dataHoraFim).getDate();
     const hoje = new Date().getDate();
-    
+
     return dataReserva > hoje && !reservasHoje.includes(reserva);
   });
 
@@ -82,9 +91,11 @@ export default function Reservas() {
                   </div>
                 </div>
 
-                <button className="w-full mt-2 py-3 bg-slate-50 group-hover:bg-emerald-500 text-slate-600 group-hover:text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all">
-                  Confirmar Chegada
-                </button>
+                {r.status !== "CONCLUIDA" &&
+                  (<button onClick={() => concluir(r.id)} className="w-full mt-2 py-3 bg-slate-50 group-hover:bg-emerald-500 text-slate-600 group-hover:text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all">
+                    Confirmar Chegada
+                  </button>)
+                }
               </div>
             )) : (
               <div className="py-10 text-center border-2 border-dashed border-slate-100 rounded-[2rem] text-slate-400 font-medium text-sm">

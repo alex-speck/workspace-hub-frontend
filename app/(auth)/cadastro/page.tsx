@@ -1,6 +1,6 @@
 import CadastroEmpresaForm from '@/app/components/CadastroEmpresa'
 import Image from 'next/image'
-import CadastroImg from '@/app/public/assets/cadastro-image.png'
+import CadastroImg from '@/app/assets/cadastro-image.png'
 import Link from 'next/link'
 
 export default function CadastrarEmpresa() {

@@ -13,8 +13,8 @@ export default function Login() {
 
     const handleLogin = async (formData: FormData) => {
         
-        const email = formData.get("email");
-        const senha = formData.get("senha");
+        const email = formData.get("email")?.toString();
+        const senha = formData.get("senha")?.toString();
         
         try {
             

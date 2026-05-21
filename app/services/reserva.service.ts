@@ -26,3 +26,14 @@ export async function criarReserva(request: ReservaRequest): Promise<void> {
         console.error(error)
     }
 }
+
+export async function concluirReserva(id: number): Promise<void> {
+    try {
+        const response = await api.put(`/reservas/${id}/concluir`);
+        if(response.status === 200){
+            console.log("atualizado!")
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
