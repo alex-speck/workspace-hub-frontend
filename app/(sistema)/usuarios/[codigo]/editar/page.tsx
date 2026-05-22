@@ -1,5 +1,4 @@
 'use client'
-import { UsuarioMock } from '@/app/mock/usuario'
 import Usuario from '@/app/types/usuarios/usuario'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'

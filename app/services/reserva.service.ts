@@ -37,3 +37,14 @@ export async function concluirReserva(id: number): Promise<void> {
         console.error(error);
     }
 }
+
+export async function cancelarReserva(id: number): Promise<void> {
+    try {
+        const response = await api.delete(`/reservas/${id}`);
+        if (response.status === 204) {
+            console.log("reserva cancelada!")
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}

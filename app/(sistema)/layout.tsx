@@ -5,8 +5,6 @@ import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Sidebar from "../components/Sidebar";
 import { useRouter } from "next/navigation";
-import { ClientesProvider } from "../context/ClientesContext";
-import { ConfirmProvider } from "../context/ConfirmContext";
 import { store } from "../redux/store";
 
 export default function SistemaLayout({ children }: { children: React.ReactNode }) {
@@ -27,33 +25,27 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
   if (usuario == null) return null;
 
   return (
-    <ConfirmProvider>
-      <ClientesProvider>
-
-        
-        <div className="flex min-h-screen flex-col bg-slate-50">
-          <Header onMenuClick={() => setIsMobileOpen(!isMobileOpen)} />
-
-          <div className="flex flex-1">
-
-            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} usuarioLogado={usuario} />
 
 
-            <div className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${isCollapsed ? "md:pl-20" : "md:pl-64 lg:pl-72"
-              }`}>
-              <main className="flex-1 p-4 sm:p-6 lg:p-8">
-                <div className="mx-auto max-w-7xl">
-                  {children}
-                </div>
-              </main>
+    <div className="flex min-h-screen flex-col bg-slate-50">
+      <Header onMenuClick={() => setIsMobileOpen(!isMobileOpen)} />
 
-              <Footer />
+      <div className="flex flex-1">
+
+        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} usuarioLogado={usuario} />
+
+
+        <div className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${isCollapsed ? "md:pl-20" : "md:pl-64 lg:pl-72"
+          }`}>
+          <main className="flex-1 p-4 sm:p-6 lg:p-8">
+            <div className="mx-auto max-w-7xl">
+              {children}
             </div>
-          </div>
+          </main>
+
+          <Footer />
         </div>
-
-
-      </ClientesProvider >
-    </ConfirmProvider>
+      </div>
+    </div>
   );
 }

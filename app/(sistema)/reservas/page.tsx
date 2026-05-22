@@ -1,5 +1,5 @@
 'use client'
-import { buscarReservas, concluirReserva } from '@/app/services/reserva.service'
+import { buscarReservas, cancelarReserva, concluirReserva } from '@/app/services/reserva.service'
 import Reserva from '@/app/types/reserva/reserva'
 import { formatarValor } from '@/app/utils/utils'
 import Link from 'next/link'
@@ -24,6 +24,15 @@ export default function Reservas() {
     try {
       await concluirReserva(id);
       setReservas(prev => prev.map(r => r.id === id ? { ...r, status: "CONCLUIDA" } : r))
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  const cancelar = async (id: number) => {
+    try {
+      await cancelarReserva(id);
+      setReservas(prev => prev.map(r => r.id === id ? { ...r, status: "CANCELADA" } : r))
     } catch (error) {
       alert(error)
     }
@@ -122,11 +131,17 @@ export default function Reservas() {
                     <span className="text-[10px] font-bold text-slate-500 bg-slate-200/50 px-2 py-0.5 rounded-md">Data: {new Date(r.dataHoraFim).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">
+                { r.status !== "CANCELADA" ?
+                (
+                  <button onClick={() => cancelar(r.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-3.375c0-.621-.504-1.125-1.125-1.125h-2.25c-.621 0-1.125.504-1.125 1.125V11.25" />
                   </svg>
                 </button>
+                ) : (
+                  <span>Cancelada</span>
+                )
+                }
               </div>
             )) : (
               <div className="py-10 text-center border-2 border-dashed border-slate-100 rounded-[2rem] text-slate-400 font-medium text-sm">

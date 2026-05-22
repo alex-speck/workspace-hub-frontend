@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react'
 import ClientesForm from '../../components/ClientesForm'
 import { useParams, useRouter } from 'next/navigation'
 import Cliente from '@/app/types/cliente/cliente'
-import { ClientesMock } from '@/app/mock/cliente'
-import axios from 'axios'
 import { buscarClientePorId } from '@/app/services/cliente.service'
 
 export default function EditarCliente() {

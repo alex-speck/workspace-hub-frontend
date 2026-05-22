@@ -1,5 +1,4 @@
 'use client'
-import { useConfirm } from '@/app/context/ConfirmContext'
 import { criarEspaco, editarEspaco } from '@/app/services/espaco.service'
 import Espaco from '@/app/types/espacos/espaco'
 import { EspacosFormProps } from '@/app/types/espacos/espaco.form'
@@ -12,7 +11,6 @@ import { useState } from 'react'
 
 export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
     const router = useRouter();
-    const { alert } = useConfirm();
 
     const [espaco, setEspaco] = useState<Espaco>(espacoExistente || new Espaco(0, '', 'MESA_FIXA', 0.00, 'DISPONIVEL'))
 
@@ -32,7 +30,7 @@ export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
         if (espacoExistente) {
             try {
                 await editarEspaco(espaco);
-                await alert("Espaço atualizado com sucesso!", true, "Atualizado!")
+                alert("Espaço atualizado com sucesso!")
                 router.push("/espacos")
 
             } catch (error) {
@@ -41,7 +39,7 @@ export default function EspacosForm({ espacoExistente }: EspacosFormProps) {
         } else {
             try {
                 await criarEspaco(espaco);
-                await alert("Espaço criado com sucesso!", true, "Sucesso!")
+                alert("Espaço criado com sucesso!")
                 router.push("/espacos")
             } catch (error) {
                 console.error(error);

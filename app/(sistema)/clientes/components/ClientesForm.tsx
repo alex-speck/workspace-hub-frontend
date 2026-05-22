@@ -1,5 +1,4 @@
 'use client'
-import { useConfirm } from '@/app/context/ConfirmContext'
 import { criarCliente, editarCliente } from '@/app/services/cliente.service'
 import Cliente from '@/app/types/cliente/cliente'
 import { ClientesFormProps } from '@/app/types/cliente/cliente.form'
@@ -14,8 +13,7 @@ import React, { useState } from 'react'
 
 
 export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
-    const router = useRouter()
-    const { alert } = useConfirm();
+    const router = useRouter();
     const [cliente, setCliente] = useState<Cliente>(clienteExistente || new Cliente(0, '', '', '', ''))
 
     const handleChange = (campo: 'name' | 'email' | 'phone' | 'documento', valor: string) => {
@@ -40,7 +38,7 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
 
     const handleSalvar = async (formData: FormData) => {
         if (cliente.documento.length < 14) {
-            await alert("Certifique-se de preencher corretamente.", false, "CPF/CNPJ inválido.");
+            alert("CPF/CNPJ inválido.");
             return;
         }
 

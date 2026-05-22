@@ -1,15 +1,12 @@
 "use client";
-import { useConfirm } from '@/app/context/ConfirmContext';
 import { buscarListaEspacos, deletarEspaco } from '@/app/services/espaco.service';
 import Espaco from '@/app/types/espacos/espaco';
 import { formatarEnum, formatarValor } from '@/app/utils/utils';
-import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function Espacos() {
   const [espacos, setEspacos] = useState<Espaco[]>([]);
-  const { confirm, alert } = useConfirm();
 
   const buscarDados = async () => {
     try {
@@ -21,15 +18,15 @@ export default function Espacos() {
   }
 
   const handleDeletarEspaco = async (id: number) => {
-    const confirma = await confirm("Deseja deletar o espaço #" + id, "Deletar")
+    const confirma = confirm("Deseja deletar o espaço #" + id)
 
     if (confirma) {
       try {
         await deletarEspaco(id);
-        await alert("Espaço deletado com sucesso!", true, "Sucesso!")
+        alert("Espaço deletado com sucesso!")
         setEspacos(prev => prev.filter(espaco => espaco.id !== id))
       } catch (error) {
-        await alert("Erro ao deletar espaço", false, "Erro!")
+        alert("Erro ao deletar espaço")
       }
     }
 
