@@ -18,8 +18,12 @@ function Usuarios() {
   }
 
   const handlerAlterarStatus = async (usuario: Usuario) => {
-        await alterarStatusUsuario(usuario)
-        setUsuarios(prev => prev.map(u => u.id === usuario.id ? { ...u, status: u.status === 'ATIVO' ? 'INATIVO' : 'ATIVO' } : u));
+      try {
+          await alterarStatusUsuario(usuario);
+          setUsuarios(prev => prev.map(u => u.id === usuario.id ? { ...u, status: u.status === 'ATIVO' ? 'INATIVO' : 'ATIVO' } : u));
+      } catch (error: any) {
+          alert(error.message || "Erro ao atualizar status!");
+      }
   }
 
   useEffect(() => {
@@ -61,8 +65,8 @@ function Usuarios() {
             </thead>
 
             <tbody className="divide-y divide-slate-50">
-              {usuarios.sort((a, b) => a.id - b.id).map((usuario) => usuario.status !== 'DELETADO' && (
-                <tr key={usuario.id} className="group hover:bg-slate-50/50 transition-colors">
+              {[...usuarios].sort((a, b) => (a.id ?? 0) - (b.id ?? 0)).map((usuario) => usuario.status !== 'DELETADO' && (
+                <tr key={usuario.id ?? 0} className="group hover:bg-slate-50/50 transition-colors">
                   <td className="px-8 py-5">
                     <span className="font-mono text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
                       #{usuario.id}

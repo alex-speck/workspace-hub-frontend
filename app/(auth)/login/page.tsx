@@ -13,21 +13,21 @@ export default function Login() {
 
     const handleLogin = async (formData: FormData) => {
         
-        const email = formData.get("email")?.toString();
-        const senha = formData.get("senha")?.toString();
+        const email = formData.get("email")?.toString() || "";
+        const senha = formData.get("senha")?.toString() || "";
         
         try {
-            
-            debugger;
             const data = await authenticar(email, senha)
 
-            dispatch(login({ usuario: data?.usuario, token: data?.token}))
+            if (data) {
+                dispatch(login({ usuario: data.usuario, token: data.token}))
+                router.push("/dashboard")
+                console.log(`Autenticado com email: ${email}`)
+            } else {
+                throw new Error("Credenciais inválidas");
+            }
 
-            
-            router.push("/dashboard")
-            console.log(`Autenticado com email: ${email}`)
-
-        } catch{
+        } catch {
             alert("Credenciais incorretos ou acesso inativo/deletado")
         }
 

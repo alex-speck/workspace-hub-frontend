@@ -50,7 +50,8 @@ export default function ClientesForm({ clienteExistente }: ClientesFormProps) {
                 await criarCliente(cliente);
                 router.push("/clientes")
             }
-        } catch (error) {
+        } catch (error: any) {
+            alert(error.message || "Erro ao salvar cliente.");
             console.error(error)
         }
     }

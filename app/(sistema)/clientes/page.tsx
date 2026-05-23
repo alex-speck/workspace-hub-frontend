@@ -21,7 +21,8 @@ export default function Clientes() {
       await alterarStatusCliente(cliente);
       setClientes(prev => prev.map(c => c.id === cliente.id ? { ...c, status: c.status === 'ATIVO' ? 'INATIVO' : 'ATIVO' } : c))
       
-    } catch (error) {
+    } catch (error: any) {
+      alert(error.message || "Erro ao atualizar status.");
       console.error(error)
     }
   }
@@ -132,7 +133,7 @@ export default function Clientes() {
                     </div>
                   </td>
                 </tr>
-              ) : clientes.sort((a, b) => a.id - b.id).map((cliente) => (
+              ) : [...clientes].sort((a, b) => a.id - b.id).map((cliente) => (
                 <tr key={cliente.id} className="group hover:bg-slate-50/50 transition-colors">
                   <td className="px-8 py-5">
                     <span className="font-bold text-slate-900 block">{cliente.nome}</span>

@@ -5,7 +5,8 @@ import Footer from "../components/Footer"
 import Header from "../components/Header"
 import Sidebar from "../components/Sidebar";
 import { useRouter } from "next/navigation";
-import { store } from "../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export default function SistemaLayout({ children }: { children: React.ReactNode }) {
   // O estado agora vive no Layout para controlar os dois lados
@@ -13,14 +14,13 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const router = useRouter();
 
-  const usuario = store.getState().auth.usuario;
+  const usuario = useSelector((state: RootState) => state.auth.usuario);
 
   useEffect(() => {
-    debugger;
     if (usuario == null) {
       router.push("/login")
     }
-  })
+  }, [usuario, router]);
 
   if (usuario == null) return null;
 

@@ -74,6 +74,16 @@ export default function NovaReserva() {
         }
     }
 
+    const handleCriarReserva = async () => {
+        try {
+            await criarReserva(request);
+            alert("Reserva cadastrada com sucesso!");
+            router.push("/reservas");
+        } catch (error: any) {
+            alert(error.message || "Erro ao cadastrar reserva!");
+        }
+    }
+
     useEffect(() => {
         buscarDados();
     }, []);
@@ -99,10 +109,7 @@ export default function NovaReserva() {
             </div>
 
             <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-slate-200/50">
-                <form action={() => {
-                    criarReserva(request)
-                    router.push("/reservas")
-                }} 
+                <form action={handleCriarReserva} 
                     className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                     <div className="flex flex-col gap-2 md:col-span-2">
@@ -111,7 +118,7 @@ export default function NovaReserva() {
                             items={espacos}
                             getValue={(e) => e.id}
                             getLabel={(e) => e.nomeNumero}
-                            onChange={(e) => handleChange("espaco", e.id)}
+                            onChange={(e) => handleChange("espaco", e ? e.id : null)}
                         />
                     </div>
 
@@ -121,7 +128,7 @@ export default function NovaReserva() {
                             items={clientes}
                             getValue={(c) => c.id}
                             getLabel={(c) => c.nome}
-                            onChange={(c) => handleChange("cliente", c.id)}
+                            onChange={(c) => handleChange("cliente", c ? c.id : null)}
                         />
                     </div>
 

@@ -1,7 +1,7 @@
 'use client'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/slices/auth.slice';
-import { store } from '../redux/store';
+import { RootState } from '../redux/store';
 import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
@@ -11,7 +11,7 @@ interface HeaderProps {
 export default function Header({onMenuClick}: HeaderProps) {
 
   const dispatch = useDispatch();
-  const usuario = store.getState().auth.usuario;
+  const usuario = useSelector((state: RootState) => state.auth.usuario);
   const router = useRouter();
 
   return (

@@ -3,7 +3,6 @@ import api from "./api";
 
 
 export async function buscarListaClientes(): Promise<Cliente[]> {
-    debugger
     const response = await api.get<Cliente[]>("/clientes")
 
     if (response.status === 200) {
@@ -24,17 +23,15 @@ export async function buscarClientePorId(id: number): Promise<Cliente | null> {
 }
 
 export async function criarCliente(cliente: Cliente): Promise<void> {
-
     const response = await api.post("/clientes", {
         nome: cliente.nome,
         telefone: cliente.telefone,
         documento: cliente.documento
     });
 
-    if (response.status !== 200) {
-        alert("Erro ao criar cliente!")
+    if (response.status !== 200 && response.status !== 201) {
+        throw new Error("Erro ao criar cliente!");
     }
-
 }
 
 export async function editarCliente(cliente: Cliente): Promise<void> {
@@ -45,7 +42,7 @@ export async function editarCliente(cliente: Cliente): Promise<void> {
     });
 
     if (response.status !== 200) {
-        alert("Erro ao editar cliente!")
+        throw new Error("Erro ao editar cliente!");
     }
 }
 
@@ -55,7 +52,6 @@ export async function alterarStatusCliente(cliente: Cliente): Promise<void> {
     const response = await api.put(`/clientes/${cliente.id}/status`, { status })
 
     if (response.status !== 200) {
-        alert("Erro ao atualizar status!")
+        throw new Error("Erro ao atualizar status!");
     }
-
 }

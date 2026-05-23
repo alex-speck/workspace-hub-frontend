@@ -27,20 +27,18 @@ export default function UsuarioForm({ usuarioExistente }: UsuarioFormProps) {
     }
 
     const handleSalvar = async (formData: FormData) => {
-        if (usuarioExistente) {
-            
-            await editarUsuario(usuario);
-            alert("Usuario editado com sucesso!");
-        } else {
-            
-            await criarUsuario(usuario);
-            alert("Usuario salvo com sucesso!");
-        
+        try {
+            if (usuarioExistente) {
+                await editarUsuario(usuario);
+                alert("Usuario editado com sucesso!");
+            } else {
+                await criarUsuario(usuario);
+                alert("Usuario salvo com sucesso!");
+            }
+            router.push("/usuarios");
+        } catch (error: any) {
+            alert(error.message || "Erro ao salvar usuário!");
         }
-
-
-
-        router.push("/usuarios");
     }
 
     return (

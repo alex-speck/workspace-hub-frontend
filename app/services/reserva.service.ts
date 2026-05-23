@@ -17,13 +17,9 @@ export async function buscarReservas(): Promise<Reserva[]> {
 }
 
 export async function criarReserva(request: ReservaRequest): Promise<void> {
-    try {
-        const response = await api.post("/reservas", request)
-        if (response.status === 200){
-            alert("Sucesso ao cadastrar!")
-        }
-    } catch (error) {
-        console.error(error)
+    const response = await api.post("/reservas", request)
+    if (response.status !== 200 && response.status !== 201) {
+        throw new Error("Erro ao criar reserva!");
     }
 }
 
