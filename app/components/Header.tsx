@@ -4,9 +4,7 @@ import { logout } from '../redux/slices/auth.slice';
 import { RootState } from '../redux/store';
 import { useRouter } from 'next/navigation';
 
-interface HeaderProps {
-  onMenuClick:()=>void
-}
+import { HeaderProps } from '../types/components/header';
 
 export default function Header({onMenuClick}: HeaderProps) {
 

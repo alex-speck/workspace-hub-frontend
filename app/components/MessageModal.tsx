@@ -1,16 +1,20 @@
 'use client'
 import { useState } from 'react'
 
-interface MessageModalProps {
-    isOpen: boolean,
-    title: string,
-    type?: 'success' | 'error' | 'warning',
-    message?: string,
-    onClose: () => void
-}
+import { MessageModalProps } from '../types/components/message-modal'
 
 export default function MessageModal({ isOpen, title, type = 'success', message, onClose }: MessageModalProps) {
   if (!isOpen) return null;
+
+    const getTitle = () => {
+        if (title) return title;
+        switch (type) {
+            case 'success': return 'Sucesso!';
+            case 'error': return 'Ops! Algo deu errado';
+            case 'warning': return 'Atenção';
+            default: return '';
+        }
+    }
 
     const configs = {
         success: {

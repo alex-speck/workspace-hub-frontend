@@ -25,6 +25,7 @@ export async function buscarClientePorId(id: number): Promise<Cliente | null> {
 export async function criarCliente(cliente: Cliente): Promise<void> {
     const response = await api.post("/clientes", {
         nome: cliente.nome,
+        email: cliente.email,
         telefone: cliente.telefone,
         documento: cliente.documento
     });
@@ -37,6 +38,7 @@ export async function criarCliente(cliente: Cliente): Promise<void> {
 export async function editarCliente(cliente: Cliente): Promise<void> {
     const response = await api.put(`/clientes/${cliente.id}`, {
         nome: cliente.nome,
+        email: cliente.email,
         telefone: cliente.telefone,
         documento: cliente.documento
     });

@@ -1,8 +1,7 @@
-export default class Usuario {
-    constructor(
-        public id: number | null,
-        public nome: string,
-        public email?: string,
-        public status?: 'ATIVO' | 'INATIVO' | 'DELETADO'
-    ) { }
+export default interface Usuario {
+  id: number | null;
+  nome: string;
+  email?: string;
+  senha?: string;
+  status?: 'ATIVO' | 'INATIVO' | 'DELETADO';
 }

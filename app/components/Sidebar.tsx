@@ -4,13 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-interface SidebarProps {
-  isCollapsed: boolean;
-  setIsCollapsed: (value: boolean) => void;
-  isMobileOpen: boolean;
-  setIsMobileOpen: (value: boolean) => void;
-  usuarioLogado: UsuarioLogado;
-}
+import { SidebarProps } from "../types/components/sidebar";
+import { UsuarioLogado } from "../types/usuarios/usuario.logado";
 
 export default function Sidebar({
   isCollapsed,

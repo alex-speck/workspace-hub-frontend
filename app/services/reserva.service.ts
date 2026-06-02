@@ -1,11 +1,11 @@
-import Reserva from "../types/reserva/reserva";
+import Reserva, { ReservasResponse } from "../types/reserva/reserva";
 import ReservaRequest from "../types/reserva/reserva.request";
 import api from "./api";
 
-export async function buscarReservas(): Promise<Reserva[]> {
+export async function buscarReservas(): Promise<ReservasResponse> {
 
     try{
-        const response = await api.get<Reserva[]>("/reservas");
+        const response = await api.get<ReservasResponse>("/reservas");
         if (response.status === 200){
             return response.data
         }
@@ -13,7 +13,7 @@ export async function buscarReservas(): Promise<Reserva[]> {
         console.error("Erro ao buscar reservas")
     }
 
-    return []
+    return { hoje: [], proximos: [] }
 }
 
 export async function criarReserva(request: ReservaRequest): Promise<void> {
@@ -24,23 +24,15 @@ export async function criarReserva(request: ReservaRequest): Promise<void> {
 }
 
 export async function concluirReserva(id: number): Promise<void> {
-    try {
-        const response = await api.put(`/reservas/${id}/concluir`);
-        if(response.status === 200){
-            console.log("atualizado!")
-        }
-    } catch (error) {
-        console.error(error);
+    const response = await api.put(`/reservas/${id}/concluir`);
+    if (response.status !== 200) {
+        throw new Error("Erro ao concluir reserva!");
     }
 }
 
 export async function cancelarReserva(id: number): Promise<void> {
-    try {
-        const response = await api.delete(`/reservas/${id}`);
-        if (response.status === 204) {
-            console.log("reserva cancelada!")
-        }
-    } catch (error) {
-        console.error(error)
+    const response = await api.delete(`/reservas/${id}`);
+    if (response.status !== 204 && response.status !== 200) {
+        throw new Error("Erro ao cancelar reserva!");
     }
 }

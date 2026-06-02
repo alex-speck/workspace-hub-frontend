@@ -34,17 +34,9 @@ const IconError = () => (
     </svg>
 );
 
-interface Props {
-    type: 'warning' | 'success' | 'error',
-    open: boolean,
-    title?: string,
-    message: string,
-    onConfirm: () => void,
-    onCancel: () => void
-}
+import { ConfirmModalProps } from '../types/components/confirm-modal';
 
-
-export default function ConfirmModal({ type, open, title, message, onConfirm, onCancel }: Props) {
+export default function ConfirmModal({ type, open, title, message, onConfirm, onCancel }: ConfirmModalProps) {
     if (!open) return null;
 
     return (

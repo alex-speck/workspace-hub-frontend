@@ -1,15 +1,15 @@
-export class CadastroEmpresa {
-    constructor(
-        public razaoSocial: string,
-        public nomeFantasia: string,
-        public cnpj: string,
-        public email: string,
-        public telefone: string,
-        public usuarioPadrao: {
-            nome: string,
-            email: string,
-            senha: string
-        }
-    ){}
 
+export default interface CadastroEmpresa {
+    razaoSocial: string,
+    nomeFantasia: string,
+    cnpj: string,
+    email: string,
+    telefone: string,
+    usuarioPadrao: UsuarioPadrao
+}
+
+interface UsuarioPadrao {
+    nome: string,
+    email: string,
+    senha: string
 }

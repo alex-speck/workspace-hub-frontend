@@ -1,14 +1,7 @@
 'use client'
 import { useState, useMemo, useRef, useEffect, KeyboardEvent } from "react";
 
-type ComboboxProps<T> = {
-    items: T[];
-    getLabel: (item: T) => string;
-    getValue: (item: T) => string | number;
-    onChange: (item: T | null) => void;
-    placeholder?: string;
-    className?: string;
-};
+import { ComboboxProps } from "../types/components/generic-combobox";
 
 export function GenericCombobox<T>({
     items,

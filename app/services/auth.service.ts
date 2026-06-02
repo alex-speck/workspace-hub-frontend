@@ -1,7 +1,8 @@
 
+
 import { LoginResponse } from "../types/authentication/login.response";
 import { TokenResponse } from "../types/authentication/token.response";
-import { CadastroEmpresa } from "../types/empresa/cadastro.empresa";
+import CadastroEmpresa from "../types/empresa/cadastro.empresa";
 import { UsuarioLogado } from "../types/usuarios/usuario.logado";
 import api from "./api";
 
@@ -23,7 +24,7 @@ export async function authenticar(email: string, senha: string): Promise<LoginRe
         if(usuarioResponse.status !== 200){
             throw new Error("Usuario inativo ou deletado!")
         }
-        return new LoginResponse(loginResponse.data.token, usuarioResponse.data)
+        return { token: loginResponse.data.token, usuario: usuarioResponse.data };
     }
 
     return null;

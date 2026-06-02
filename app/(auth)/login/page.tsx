@@ -3,13 +3,15 @@ import { login } from '@/app/redux/slices/auth.slice';
 import { authenticar } from '@/app/services/auth.service';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-
-
+import Button from '@/app/components/Button';
+import Input from '@/app/components/Input';
+import { useNotification } from '@/app/hooks/useNotification';
 
 export default function Login() {
 
     const router = useRouter();
     const dispatch = useDispatch();
+    const { showError } = useNotification();
 
     const handleLogin = async (formData: FormData) => {
         
@@ -27,8 +29,8 @@ export default function Login() {
                 throw new Error("Credenciais inválidas");
             }
 
-        } catch {
-            alert("Credenciais incorretos ou acesso inativo/deletado")
+        } catch (error: any) {
+            showError(error.message || "Credenciais incorretos ou acesso inativo/deletado")
         }
 
 
@@ -51,45 +53,32 @@ export default function Login() {
                 </div>
 
                 <form className="space-y-6" action={handleLogin}>
-                    <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-widest font-bold text-slate-400 ml-1">
-                            E-mail Institucional
-                        </label>
-                        <div className="relative">
-                            <input
-                                type="email"
-                                placeholder='ex: gestao@unidade.com'
-                                name='email'
-                                required
-                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-400 text-slate-700"
-                            />
-                        </div>
-                    </div>
+                    <Input
+                        label="E-mail Institucional"
+                        type="email"
+                        placeholder='ex: gestao@unidade.com'
+                        name='email'
+                        required
+                    />
 
-                    <div className="space-y-2">
-                        <div className="flex justify-between items-center ml-1">
-                            <label className="text-xs uppercase tracking-widest font-bold text-slate-400">
-                                Senha de Acesso
-                            </label>
-                            {/* <a href="#" className="text-xs font-bold text-emerald-600 hover:underline">Esqueceu?</a> */}
-                        </div>
-                        <input
-                            type="password"
-                            name='senha'
-                            required
-                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all text-slate-700"
-                        />
-                    </div>
+                    <Input
+                        label="Senha de Acesso"
+                        type="password"
+                        name='senha'
+                        required
+                    />
 
-                    <button
+                    <Button
                         type="submit"
-                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl shadow-xl shadow-slate-200 transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2 group hover:cursor-pointer"
+                        className="w-full mt-4 group"
+                        icon={
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        }
                     >
-                        <span>Entrar no Painel</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
-                    </button>
+                        Entrar no Painel
+                    </Button>
                 </form>
 
                 <p className="text-center text-slate-400 text-xs mt-10">
