@@ -1,5 +1,6 @@
 
 
+import AlterarSenha from "../types/authentication/alterar.senha";
 import { LoginResponse } from "../types/authentication/login.response";
 import { TokenResponse } from "../types/authentication/token.response";
 import CadastroEmpresa from "../types/empresa/cadastro.empresa";
@@ -35,5 +36,13 @@ export async function cadastrarEmpresaUsuario(empresaData: CadastroEmpresa): Pro
 
     if (response.status !== 201) {
         throw new Error("Erro ao cadastrar empresa e usuário");
+    }
+}
+
+export async function alterarSenhaUsuario(body: AlterarSenha): Promise<void> {
+    const response = await api.post("/auth/alterar-senha", body);
+
+    if (response.status !== 200){
+        throw new Error("Ocorreu algum erro ao tentar alterar a senha")
     }
 }
