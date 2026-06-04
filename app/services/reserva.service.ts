@@ -1,3 +1,4 @@
+import axios from "axios";
 import Reserva, { ReservaCancelamento, ReservasResponse } from "../types/reserva/reserva";
 import ReservaRequest from "../types/reserva/reserva.request";
 import api from "./api";
@@ -39,7 +40,7 @@ export async function cancelarReserva(id: number): Promise<void> {
 
 
 export async function buscarDetalhesCancelamento (codigo: string): Promise<ReservaCancelamento> {
-    const response = await api.get<ReservaCancelamento>(`/reservas/detalhes-cancelamento/${codigo}`);
+    const response = await axios.get<ReservaCancelamento>(`http://localhost:8080/reservas/detalhes-cancelamento/${codigo}`);
     if(response.status === 200){
         return response.data
     } else {
@@ -48,7 +49,7 @@ export async function buscarDetalhesCancelamento (codigo: string): Promise<Reser
 }
 
 export async function clienteCancelarReserva(codigo: string): Promise<void> {
-    const response = await api.delete(`/reservas/cancelar/${codigo}`);
+    const response = await axios.delete(`http://localhost:8080/reservas/cancelar/${codigo}`);
     if(response.status !== 204){
         throw new Error("Erro ao cancelar reserva!")
     }
