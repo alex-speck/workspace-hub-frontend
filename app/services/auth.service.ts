@@ -39,6 +39,14 @@ export async function cadastrarEmpresaUsuario(empresaData: CadastroEmpresa): Pro
     }
 }
 
+export async function recuperarContaUsuario(email: string): Promise<void> {
+    const response = await api.post("/auth/recuperar-senha", { email });
+
+    if (response.status !== 200){
+        throw new Error("Ocorreu algum erro ao tentar recuperar a conta")
+    }
+}
+
 export async function alterarSenhaUsuario(body: AlterarSenha): Promise<void> {
     const response = await api.post("/auth/alterar-senha", body);
 

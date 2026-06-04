@@ -1,4 +1,4 @@
-import Reserva, { ReservasResponse } from "../types/reserva/reserva";
+import Reserva, { ReservaCancelamento, ReservasResponse } from "../types/reserva/reserva";
 import ReservaRequest from "../types/reserva/reserva.request";
 import api from "./api";
 
@@ -34,5 +34,22 @@ export async function cancelarReserva(id: number): Promise<void> {
     const response = await api.delete(`/reservas/${id}`);
     if (response.status !== 204 && response.status !== 200) {
         throw new Error("Erro ao cancelar reserva!");
+    }
+}
+
+
+export async function buscarDetalhesCancelamento (codigo: string): Promise<ReservaCancelamento> {
+    const response = await api.get<ReservaCancelamento>(`/reservas/detalhes-cancelamento/${codigo}`);
+    if(response.status === 200){
+        return response.data
+    } else {
+        throw new Error("Erro ao buscar detalhes do cancelamento!")
+    }
+}
+
+export async function clienteCancelarReserva(codigo: string): Promise<void> {
+    const response = await api.delete(`/reservas/cancelar/${codigo}`);
+    if(response.status !== 204){
+        throw new Error("Erro ao cancelar reserva!")
     }
 }

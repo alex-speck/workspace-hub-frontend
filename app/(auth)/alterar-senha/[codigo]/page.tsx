@@ -4,11 +4,12 @@ import Input from '@/app/components/Input';
 import { useNotification } from '@/app/hooks/useNotification';
 import { alterarSenhaUsuario } from '@/app/services/auth.service';
 import AlterarSenha from '@/app/types/authentication/alterar.senha';
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 function RecuperarSenha() {
-    const { showError } = useNotification();
+    const router = useRouter();
+    const { showError, showSuccess } = useNotification();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const codigo = useParams().codigo as string;
     const [request, setRequest] = useState<AlterarSenha>({
@@ -28,6 +29,8 @@ function RecuperarSenha() {
         try {
             setIsLoading(true);
             await alterarSenhaUsuario(request);
+            showSuccess("Senha alterada com sucesso!");
+            router.push('/login');
         } catch (error: any) {
             showError(error?.message)
         } finally {
@@ -90,6 +93,7 @@ function RecuperarSenha() {
                         <div className="pt-2">
                             <Button
                                 isLoading={isLoading}
+                                onClick={handleConfirmar}
                                 className="w-full h-12 bg-slate-900 text-white rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-emerald-600 transition-colors shadow-lg shadow-slate-900/10 active:scale-95"
                             >
                                 Redefinir Senha

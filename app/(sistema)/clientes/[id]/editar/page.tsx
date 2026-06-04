@@ -14,17 +14,17 @@ export default function EditarCliente() {
 
     const id = Number(params.id)
 
-    useEffect(() => {
-        buscarDados()
-    }, [])
-
     const buscarDados = async () => {
         try {
             setCliente(await buscarClientePorId(id))
-        } catch (error) {
+        } catch {
             router.push("/clientes")
         }
     }
+
+    useEffect(() => {
+        buscarDados()
+    }, [])
 
 
 

@@ -15,10 +15,7 @@ export default function EditarEspaco() {
 
     const id = Number(params.id)
 
-    useEffect(() => {
-        buscarDados()
-    }, [])
-
+    
     const buscarDados = async () => {
         try {
             setEspaco(await buscarEspacoPorId(id))
@@ -26,6 +23,11 @@ export default function EditarEspaco() {
             router.push("/espacos")
         }
     }
+
+    useEffect(() => {
+        buscarDados()
+    }, [])
+
 
     if (!espaco) return (<div className="p-8">Carregando...</div>)
 

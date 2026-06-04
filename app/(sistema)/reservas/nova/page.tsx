@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useMemo } from 'react'
 import { useNotification } from '@/app/hooks/useNotification';
+import { formatarValor } from '@/app/utils/utils';
 
 export default function NovaReserva() {
     const router = useRouter()
@@ -27,9 +28,9 @@ export default function NovaReserva() {
         horaFim: ""
     });
 
-    const hoje = new Date().toISOString().split("T")[0];
+    const limite = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split("T")[0];
 
-    const handleChange = (campo: string, valor: any) => {
+    const handleChange = (campo: string, valor: string | number | Date) => {
         setRequest(prev => ({
             ...prev,
             [campo]: valor
@@ -68,8 +69,7 @@ export default function NovaReserva() {
         }
     }
 
-    const handleCriarReserva = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleCriarReserva = async () => {
         if (request.clienteId === 0 || request.espacoId === 0) {
             showError("Selecione um cliente e um espaço.", "Validação");
             return;
@@ -141,7 +141,7 @@ export default function NovaReserva() {
                                         <input
                                             required
                                             type="date"
-                                            min={hoje}
+                                            min={limite}
                                             value={request.data}
                                             onChange={(e) => handleChange("data", e.target.value)}
                                             className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-emerald-500 focus:bg-white transition-all text-slate-900 font-medium"

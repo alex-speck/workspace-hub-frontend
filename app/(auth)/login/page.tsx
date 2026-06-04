@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import Button from '@/app/components/Button';
 import Input from '@/app/components/Input';
 import { useNotification } from '@/app/hooks/useNotification';
+import Link from 'next/link';
 
 export default function Login() {
 
@@ -80,6 +81,14 @@ export default function Login() {
                         Entrar no Painel
                     </Button>
                 </form>
+
+                <Link href="/recuperar-conta" className="block text-center text-sm text-emerald-600 hover:underline mt-4">
+                    Esqueci minha senha
+                </Link>
+
+                <p className="text-center text-slate-500 text-sm mt-4">
+                    Não é um cliente? <Link href="/cadastro" className="text-emerald-600 hover:underline"> Cadastre sua empresa</Link>
+                </p>
 
                 <p className="text-center text-slate-400 text-xs mt-10">
                     Sistema de Gestão Multi-Tenant

@@ -1,6 +1,7 @@
 'use client'
 import Button from "@/app/components/Button";
 import Input from "@/app/components/Input";
+import { useNotification } from "@/app/hooks/useNotification";
 import { cadastrarEmpresaUsuario } from "@/app/services/auth.service";
 import { buscarDadosCnpj } from "@/app/services/empresa.service";
 import CadastroEmpresa from "@/app/types/empresa/cadastro.empresa";
@@ -12,6 +13,7 @@ import { useState } from "react";
 
 export default function CadastrarEmpresa() {
    const router = useRouter()
+   const { showError, showSuccess } = useNotification();
    const [step, setStep] = useState<number>(1);
    const [isLoading, setIsLoading] = useState<boolean>(false);
    const [empresa, setEmpresa] = useState<CadastroEmpresa>({
@@ -45,8 +47,10 @@ export default function CadastrarEmpresa() {
    }
 
    const buscarEmpresaPorCnpj = async (cnpj: string) => {
-      if (cnpj.replace(/[^0-9]/g, "").length === 14) {
-         const dadosEmpresa = await buscarDadosCnpj(cnpj);
+      const cnpjLimpo = cnpj.replace(/[^0-9]/g, "");
+
+      if (cnpjLimpo.length === 14) {
+         const dadosEmpresa = await buscarDadosCnpj(cnpjLimpo);
          if (dadosEmpresa !== null) {
             setEmpresa(prev => ({
                ...prev,
@@ -63,9 +67,10 @@ export default function CadastrarEmpresa() {
       try {
          setIsLoading(true);
          await cadastrarEmpresaUsuario(empresa);
+         showSuccess("Empresa cadastrada com sucesso!");
          router.push("/login");
-      } catch (error) {
-
+      } catch (error: any) {
+         showError(error.message || "Erro ao cadastrar empresa.");
       } finally {
          setIsLoading(false);
       }
