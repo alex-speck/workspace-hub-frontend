@@ -27,7 +27,7 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
   return (
 
 
-    <div className="flex min-h-screen flex-col bg-slate-50">
+    <div className="flex min-h-screen flex-col bg-slate-50" style={{ colorScheme: 'light' }}>
       <Header onMenuClick={() => setIsMobileOpen(!isMobileOpen)} />
 
       <div className="flex flex-1">

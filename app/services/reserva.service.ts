@@ -1,5 +1,5 @@
 import axios from "axios";
-import Reserva, { ReservaCancelamento, ReservasResponse } from "../types/reserva/reserva";
+import { ReservaCancelamento, ReservasResponse } from "../types/reserva/reserva";
 import ReservaRequest from "../types/reserva/reserva.request";
 import api from "./api";
 

@@ -7,12 +7,14 @@ import Button from '@/app/components/Button';
 import Input from '@/app/components/Input';
 import { useNotification } from '@/app/hooks/useNotification';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Login() {
 
     const router = useRouter();
     const dispatch = useDispatch();
     const { showError } = useNotification();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleLogin = async (formData: FormData) => {
         
@@ -20,6 +22,7 @@ export default function Login() {
         const senha = formData.get("senha")?.toString() || "";
         
         try {
+            setIsLoading(true);
             const data = await authenticar(email, senha)
 
             if (data) {
@@ -32,6 +35,8 @@ export default function Login() {
 
         } catch (error: any) {
             showError(error.message || "Credenciais incorretos ou acesso inativo/deletado")
+        } finally {
+            setIsLoading(false);
         }
 
 
@@ -72,6 +77,7 @@ export default function Login() {
                     <Button
                         type="submit"
                         className="w-full mt-4 group"
+                        isLoading={isLoading}
                         icon={
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
