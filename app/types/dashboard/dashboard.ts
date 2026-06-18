@@ -1,11 +1,9 @@
-import { ReactNode } from "react";
+
+import Reserva from "../reserva/reserva";
 
 export interface DashboardStats {
     title: string;
     value: string | number;
-    change: string;
-    trend: 'up' | 'down' | 'neutral';
-    icon: ReactNode;
 }
 
 export interface FaturamentoDados {
@@ -19,25 +17,17 @@ export interface FaturamentoResumo {
     mensal: FaturamentoDados[];
 }
 
-export interface OcupacaoSala {
-    id: number;
-    nome: string;
-    percentual: number;
-}
 
-export interface Notificacao {
-    id: number;
-    titulo: string;
-    descricao: string;
-    data: string;
-    tipo: 'info' | 'warning' | 'success' | 'error';
-}
+
+
 
 export interface DashboardData {
     stats: DashboardStats[];
     faturamento: FaturamentoResumo;
-    reservasHoje: any[]; // Usará o tipo Reserva já existente
-    proximasReservas: any[]; // Usará o tipo Reserva já existente
-    ocupacaoSalas: OcupacaoSala[];
-    notificacoes: Notificacao[];
+    reservasHoje: Reserva[]; 
+    proximasReservas: Reserva[];
+}
+
+export interface DashboardPageProps {
+    dashboardData: DashboardData
 }

@@ -69,7 +69,7 @@ export default function Espacos() {
       render: (espaco: Espaco) => (
         <div className="flex flex-col">
           <span className="text-sm font-bold">{formatarValor(espaco.valorHora)}</span>
-          <span className="text-[10px] text-slate-400 uppercase font-bold">por hora</span>
+          <span className="text-[10px]  uppercase font-bold">por hora</span>
         </div>
       )
     },

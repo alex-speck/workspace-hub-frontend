@@ -63,10 +63,10 @@ export default function DataTable<T>({
                                     {columns.map((column, colIndex) => (
                                         <td
                                             key={colIndex}
-                                            className={`px-8 py-5 ${
+                                            className={`px-8 py-5 text-slate-900 ${
                                                 column.align === 'right' ? 'text-right' : 
                                                 column.align === 'center' ? 'text-center' : ''
-                                            } ${column.className || ''}`}
+                                            } `}
                                         >
                                             {column.render ? column.render(item) : (item[column.key as keyof T] as React.ReactNode)}
                                         </td>

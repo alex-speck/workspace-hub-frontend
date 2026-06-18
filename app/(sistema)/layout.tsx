@@ -9,31 +9,38 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 export default function SistemaLayout({ children }: { children: React.ReactNode }) {
-  // O estado agora vive no Layout para controlar os dois lados
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
   const usuario = useSelector((state: RootState) => state.auth.usuario);
 
   useEffect(() => {
-    if (usuario == null) {
-      router.push("/login")
-    }
-  }, [usuario, router]);
+    setMounted(true);
+  }, []);
 
+  useEffect(() => {
+    if (mounted && usuario == null) {
+      router.push("/login");
+    }
+  }, [mounted, usuario, router]);
+
+  if (!mounted) return null;
   if (usuario == null) return null;
 
   return (
-
-
-    <div className="flex min-h-screen flex-col bg-slate-50" style={{ colorScheme: 'light' }}>
+    <div className="flex min-h-screen flex-col bg-slate-50">
       <Header onMenuClick={() => setIsMobileOpen(!isMobileOpen)} />
 
       <div className="flex flex-1">
-
-        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} usuarioLogado={usuario} />
-
+        <Sidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          isMobileOpen={isMobileOpen}
+          setIsMobileOpen={setIsMobileOpen}
+          usuarioLogado={usuario}
+        />
 
         <div className={`flex flex-1 flex-col transition-all duration-300 ease-in-out ${isCollapsed ? "md:pl-20" : "md:pl-64 lg:pl-72"
           }`}>
@@ -42,7 +49,6 @@ export default function SistemaLayout({ children }: { children: React.ReactNode 
               {children}
             </div>
           </main>
-
           <Footer />
         </div>
       </div>
