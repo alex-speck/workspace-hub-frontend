@@ -117,9 +117,9 @@ export default function NovaReserva() {
                                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Espaço de Trabalho</label>
                                     <GenericCombobox
                                         items={espacos}
-                                        getValue={(e) => e.id}
+                                        getValue={(e) => e.id!}
                                         getLabel={(e) => `${e.nomeNumero} - ${e.tipo.replace('_', ' ')}`}
-                                        onChange={(e) => handleChange("espacoId", e ? e.id : 0)}
+                                        onChange={(e) => handleChange("espacoId", e ? e.id! : 0)}
                                         placeholder="Pesquise pelo nome ou número do espaço"
                                     />
                                 </div>

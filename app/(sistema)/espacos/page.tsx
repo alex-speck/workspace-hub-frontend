@@ -181,7 +181,7 @@ export default function Espacos() {
         <DataTable
           data={espacos.filter(e => e.status !== "DELETADO")}
           columns={columns}
-          keyExtractor={(e) => e.id}
+          keyExtractor={(e) => e.id!}
           isLoading={isLoading}
           emptyMessage="Nenhum espaço encontrado"
           emptyIcon={
