@@ -1,6 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie"
 import { ApiError } from "../types/api/api-error";
+import { store } from "../redux/store";
+import { logout } from "../redux/slices/auth.slice"
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -28,7 +30,7 @@ api.interceptors.response.use(
         if(error.response) {
             if (error.response.status === 401 || error.response.status === 403) {
                 console.log("login expirado!")
-                Cookies.remove("token")
+                store.dispatch(logout())
                 window.location.href = '/login'
             }
             
