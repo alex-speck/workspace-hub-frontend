@@ -21,10 +21,10 @@ const authSlice = createSlice(
                 state.usuario = action.payload.usuario;
 
                 Cookies.set('usuario', JSON.stringify(action.payload.usuario), {
-                    expires: 1
+                    expires: new Date(new Date().getMinutes() + 60)
                 });
                 Cookies.set('token', action.payload.token, {
-                    expires: 1,
+                    expires: new Date(new Date().getMinutes() + 60),
                     secure: true
                 })
             },
