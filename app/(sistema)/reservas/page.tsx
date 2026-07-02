@@ -7,12 +7,22 @@ import React, { useEffect, useState, useMemo } from 'react'
 import DataTable from '@/app/components/DataTable'
 import Calendar from '@/app/components/Calendar'
 import { useNotification } from '@/app/hooks/useNotification'
+import { useDispatch, useSelector } from 'react-redux'
+import { PaginaFiltro } from '@/app/types/filtros/filtros'
+import { addFiltro, buscarFiltroPorPagina } from '@/app/redux/slices/filtros.slice'
+import { RootState } from '@/app/redux/store'
 
 export default function Reservas() {
+  const filtro = useSelector(buscarFiltroPorPagina("/reservas"))?.filtros.find((i)=>i.tipo === "viewMode")?.valor
+
   const [reservas, setReservas] = useState<ReservasResponse>({ hoje: [], proximos: [] })
-  const [viewMode, setViewMode] = useState<'grouped' | 'table' | 'calendar'>('grouped')
+  const [viewMode, setViewMode] = useState<'grouped' | 'table' | 'calendar'>(filtro ? filtro as 'grouped' | 'table' | 'calendar' : 'grouped')
   const [isLoading, setIsLoading] = useState(true)
+  const dispatch = useDispatch();
   const { showError } = useNotification()
+
+  console.log(filtro)
+  console.log(useSelector((state: RootState) => state.filtro.data))
 
   const buscarDados = async () => {
     try {
@@ -50,6 +60,22 @@ export default function Reservas() {
     } catch (error: any) {
       showError(error.message || "Erro ao cancelar reserva")
     }
+  }
+
+  const guardarFiltros = (novoValor: 'grouped' | 'table' | 'calendar') => {
+    console.log(novoValor)
+    const filtro: PaginaFiltro = {
+      pagina: "/reservas",
+      filtros: [
+        {
+          tipo: "viewMode",
+          valor: novoValor
+        }
+      ]
+    }
+    console.log("Filtro do metodo guardar filtros: ")
+    console.log(filtro)
+    dispatch(addFiltro({ filtro }))
   }
 
   useEffect(() => {
@@ -120,11 +146,10 @@ export default function Reservas() {
       header: 'Status',
       key: 'status',
       render: (r: Reserva) => (
-        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-          r.status === 'ABERTA' ? 'bg-emerald-100 text-emerald-700' :
-          r.status === 'CONCLUIDA' ? 'bg-slate-100 text-slate-500' :
-          'bg-red-100 text-red-700'
-        }`}>
+        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${r.status === 'ABERTA' ? 'bg-emerald-100 text-emerald-700' :
+            r.status === 'CONCLUIDA' ? 'bg-slate-100 text-slate-500' :
+              'bg-red-100 text-red-700'
+          }`}>
           {r.status}
         </span>
       )
@@ -175,24 +200,33 @@ export default function Reservas() {
         <div className="flex items-center gap-3">
           <div className="bg-white p-1.5 rounded-2xl border border-slate-100 shadow-sm flex gap-1">
             <button
-              onClick={() => setViewMode('grouped')}
-              className={`p-2.5 rounded-xl transition-all ${viewMode === 'grouped' ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+              onClick={() => { 
+                setViewMode('grouped')
+                guardarFiltros('grouped')
+              }}
+              className={`p-2.5 rounded-xl cursor-pointer transition-all ${viewMode === 'grouped' ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25a2.25 2.25 0 0 1-2.25 2.25h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
               </svg>
             </button>
             <button
-              onClick={() => setViewMode('table')}
-              className={`p-2.5 rounded-xl transition-all ${viewMode === 'table' ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+              onClick={() => {
+                setViewMode('table')
+                guardarFiltros('table')
+              }}
+              className={`p-2.5 rounded-xl cursor-pointer transition-all ${viewMode === 'table' ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
               </svg>
             </button>
             <button
-              onClick={() => setViewMode('calendar')}
-              className={`p-2.5 rounded-xl transition-all ${viewMode === 'calendar' ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+              onClick={() => {
+                setViewMode('calendar')
+                guardarFiltros('calendar');
+              }}
+              className={`p-2.5 rounded-xl cursor-pointer transition-all ${viewMode === 'calendar' ? 'bg-slate-900 text-white shadow-lg shadow-slate-900/20' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
@@ -271,18 +305,18 @@ export default function Reservas() {
                       <span className="text-[10px] font-bold text-slate-500 bg-slate-200/50 px-2 py-0.5 rounded-md">Data: {r.data}</span>
                     </div>
                   </div>
-                  { r.status === "ABERTA" ?
-                  (
-                    <button onClick={() => cancelar(r.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-3.375c0-.621-.504-1.125-1.125-1.125h-2.25c-.621 0-1.125.504-1.125 1.125V11.25" />
-                    </svg>
-                  </button>
-                  ) : (
-                    <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md ${r.status === 'CONCLUIDA' ? 'bg-slate-100 text-slate-400' : 'bg-red-50 text-red-400'}`}>
-                      {r.status}
-                    </span>
-                  )
+                  {r.status === "ABERTA" ?
+                    (
+                      <button onClick={() => cancelar(r.id)} className="p-2 text-slate-300 hover:text-red-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-3.375c0-.621-.504-1.125-1.125-1.125h-2.25c-.621 0-1.125.504-1.125 1.125V11.25" />
+                        </svg>
+                      </button>
+                    ) : (
+                      <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-md ${r.status === 'CONCLUIDA' ? 'bg-slate-100 text-slate-400' : 'bg-red-50 text-red-400'}`}>
+                        {r.status}
+                      </span>
+                    )
                   }
                 </div>
               )) : (
@@ -308,7 +342,7 @@ export default function Reservas() {
 
       {viewMode === 'calendar' && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 h-[700px]">
-          <Calendar 
+          <Calendar
             events={calendarEvents}
             onEventClick={(id) => {
               const reserva = todasReservas.find(r => r.id === id)
